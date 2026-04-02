@@ -1,28 +1,31 @@
-// utils/db.js (MySQL Cloud-Ready Version)
+// backend/utils/db.js
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-    process.env.DB_NAME || 'job_portal_db', 
-    process.env.DB_USER || 'root', 
-    process.env.DB_PASSWORD || '', 
-    {
-        host: process.env.DB_HOST || 'localhost',
-        // 🟢 Port zaroori hai cloud ke liye (e.g. 12345)
-        port: process.env.DB_PORT || 3306, 
-        dialect: 'mysql',
-        logging: false, 
-        dialectOptions: {
-            // 🟢 Aiven aur cloud services ke liye SSL zaroori hai
-            ssl: {
-                rejectUnauthorized: false
-            },
-            connectTimeout: 60000 // Cloud connection ke liye timeout badha diya
-        }
+/**
+ * 🟢 Aiven MySQL Cloud Configuration
+ * Hum 'DATABASE_URL' variable ka use kar rahe hain jo Render mein set hai.
+ * Ismein host, user, password, aur port sab kuch ek hi link mein hota hai.
+ */
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'mysql',
+    logging: false, // Console par SQL queries ko hide karne ke liye
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false // 🔴 Aiven MySQL ke liye ye line compulsory hai
+        },
+        connectTimeout: 60000 // Cloud connection ke liye timeout (60 seconds)
+    },
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
     }
-);
+});
 
 const connectDB = async () => {
     try {
@@ -30,6 +33,10 @@ const connectDB = async () => {
         console.log('Ji Babuji, MySQL Connected Successfully! 🚀');
     } catch (error) {
         console.error('MySQL Connection Error:', error);
+        // Error details check karne ke liye:
+        if (error.name === 'SequelizeConnectionRefusedError') {
+            console.error('Tip: Check karein ki Aiven mein IP 0.0.0.0/0 allowed hai ya nahi.');
+        }
     }
 };
 
