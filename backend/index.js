@@ -22,17 +22,15 @@ app.use(cookieParser());
 // 🟢 FIX: CORS Configuration for Production
 const corsOptions = {
     origin: [
-        'https://webx360-6u95ht3v6-neeraj814s-projects.vercel.app', // Aapka specific Vercel URL
-        'http://localhost:5173', // Local development (Vite default)
-        process.env.FRONTEND_URL // Render Environment Variable se jo aayega
-    ].filter(Boolean), // Jo undefined hain unhe remove kar dega
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+        'https://webx360-6u95ht3v6-neeraj814s-projects.vercel.app', // Jo error mein origin dikh raha hai
+        'http://localhost:5173'
+    ],
+    credentials: true, // Cookies allow karne ke liye
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // OPTIONS zaroori hai pre-flight ke liye
     allowedHeaders: ["Content-Type", "Authorization"]
 };
 
 app.use(cors(corsOptions));
-
 // API Routes
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
