@@ -21,13 +21,15 @@ app.use(cookieParser());
 
 // 🟢 FIX: CORS Configuration for Production
 const corsOptions = {
+    // 🟢 Sabse bada change: Is naye Vercel link ko add karein
     origin: [
-        'https://webx360-6u95ht3v6-neeraj814s-projects.vercel.app', // Jo error mein origin dikh raha hai
+        'https://webx360-hy88dmi4h-neeraj814s-projects.vercel.app', 
+        'https://webx360-neeraj814s-projects.vercel.app', // Main production link
         'http://localhost:5173'
     ],
-    credentials: true, // Cookies allow karne ke liye
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // OPTIONS zaroori hai pre-flight ke liye
-    allowedHeaders: ["Content-Type", "Authorization"]
+    credentials: true, // Zaroori hai cookies/token bhejne ke liye
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
 };
 
 app.use(cors(corsOptions));
