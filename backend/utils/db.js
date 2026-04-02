@@ -13,21 +13,13 @@ console.log("Checking DATABASE_URL in Environment:", process.env.DATABASE_URL ? 
  * Hum 'DATABASE_URL' variable ka use kar rahe hain.
  * Fallback: Agar undefined hua toh empty string denge taaki error clear aaye.
  */
-const sequelize = new Sequelize(process.env.DATABASE_URL || "", {
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'mysql',
-    logging: false, 
+    logging: false, // Console ko saaf rakhne ke liye production mein false karein
     dialectOptions: {
         ssl: {
-            require: true,
-            rejectUnauthorized: false 
-        },
-        connectTimeout: 60000 
-    },
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
+            rejectUnauthorized: false // Aiven MySQL ke liye ye zaroori hota hai
+        }
     }
 });
 
