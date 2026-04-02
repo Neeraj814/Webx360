@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import briefcaseAnimation from "@/assets/icons8-briefcase.json";
 import {
-  Briefcase, Menu, X, LogOut, User2, LayoutDashboard,
-  ChevronRight, Building2, ShieldCheck, Settings
+  Menu, X, LogOut, User2, LayoutDashboard,
+  ChevronRight, ShieldCheck, Settings
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSelector, useDispatch } from "react-redux";
@@ -62,9 +62,9 @@ const Navbar: React.FC = () => {
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between mx-auto max-w-7xl px-4">
 
-        {/* --- LOGO --- */}
+        {/* --- LOGO UPDATED TO WEBX360 --- */}
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg  transition-transform group-hover:scale-105">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg transition-transform group-hover:scale-105">
             <Lottie
               animationData={briefcaseAnimation}
               loop={true}
@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
             />
           </div>
           <span className="text-xl font-bold text-foreground tracking-tight">
-            Web<span className="text-primary">X</span>
+            Web<span className="text-primary">X360</span>
           </span>
         </Link>
 
@@ -190,7 +190,8 @@ const Navbar: React.FC = () => {
       {mobileOpen && (
         <div className="md:hidden border-t bg-background p-4 flex flex-col gap-6 animate-in slide-in-from-top-2 duration-300 min-h-screen">
 
-          {userData && (
+          {/* User Profile OR Auth Buttons */}
+          {userData ? (
             <div className="flex items-center gap-4 p-4 bg-muted/40 rounded-2xl border border-border/50">
               <Avatar className="h-14 w-14 border-2 border-primary/20">
                 <AvatarImage src={profilePic} className="object-cover" />
@@ -199,6 +200,18 @@ const Navbar: React.FC = () => {
               <div className="flex flex-col">
                 <p className="text-base font-bold text-foreground">{fullName}</p>
                 <p className="text-xs font-semibold text-primary uppercase tracking-widest">{userRole}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3 p-2">
+              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-1">Getting Started with WebX360</p>
+              <div className="flex flex-col gap-2">
+                <Link to="/login" onClick={() => setMobileOpen(false)}>
+                  <Button variant="outline" className="w-full justify-center py-6 text-base font-semibold">Log In</Button>
+                </Link>
+                <Link to="/signup" onClick={() => setMobileOpen(false)}>
+                  <Button className="w-full justify-center py-6 text-base font-semibold">Sign Up / Create Account</Button>
+                </Link>
               </div>
             </div>
           )}
