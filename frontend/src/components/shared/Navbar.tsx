@@ -77,9 +77,7 @@ const Navbar: React.FC = () => {
               <span className="text-primary italic">X</span>
               <span className="text-foreground">360</span>
             </span>
-            <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary/60 leading-none pl-0.5">
-              Solutions
-            </span>
+           
           </div>
         </Link>
 
