@@ -2,9 +2,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-// 🟢 Logic Change: Import Sequelize connection and your models index
 import { sequelize } from "./utils/db.js"; 
-import "./models/index.js"; // This ensures all associations/tables are loaded
+import "./models/index.js"; 
 
 import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
@@ -20,10 +19,18 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
+// 🟢 FIX: CORS Configuration for Production
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:8080',
-    credentials: true
-}
+    origin: [
+        'https://webx360-6u95ht3v6-neeraj814s-projects.vercel.app', // Aapka specific Vercel URL
+        'http://localhost:5173', // Local development (Vite default)
+        process.env.FRONTEND_URL // Render Environment Variable se jo aayega
+    ].filter(Boolean), // Jo undefined hain unhe remove kar dega
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+};
+
 app.use(cors(corsOptions));
 
 // API Routes
@@ -36,11 +43,11 @@ const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, async () => {
     try {
-        // 🟢 Logic Change: Authenticate and Sync MySQL Tables
         await sequelize.authenticate();
         console.log('Connection to MySQL has been established successfully. 🚀');
         
-        // Use { alter: true } to update tables without losing data during development
+        // Use { alter: true } only in development. 
+        // Production mein sync carefully use karein.
         await sequelize.sync({ alter: true }); 
         console.log("All MySQL models were synchronized successfully. ✅");
         
