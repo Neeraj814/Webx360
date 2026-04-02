@@ -15,14 +15,13 @@ console.log("Checking DATABASE_URL in Environment:", process.env.DATABASE_URL ? 
  */
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'mysql',
-    logging: false, // Console ko saaf rakhne ke liye production mein false karein
     dialectOptions: {
         ssl: {
-            rejectUnauthorized: false // Aiven MySQL ke liye ye zaroori hota hai
+            rejectUnauthorized: false // Aiven MySQL ke liye ye zaroori hai
         }
-    }
+    },
+    logging: false, // Production mein console ko saaf rakhne ke liye
 });
-
 const connectDB = async () => {
     try {
         // Validation check before attempting connection
