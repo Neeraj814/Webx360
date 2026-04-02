@@ -62,18 +62,25 @@ const Navbar: React.FC = () => {
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between mx-auto max-w-7xl px-4">
 
-        {/* --- LOGO UPDATED TO WEBX360 --- */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg transition-transform group-hover:scale-105">
+        {/* --- PREMIUM LOGO: WEBX360 --- */}
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 shadow-sm transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-105">
             <Lottie
               animationData={briefcaseAnimation}
               loop={true}
-              className="h-full w-full"
+              className="h-7 w-7"
             />
           </div>
-          <span className="text-xl font-bold text-foreground tracking-tight">
-            Web<span className="text-primary">X360</span>
-          </span>
+          <div className="flex flex-col -space-y-1.5">
+            <span className="text-xl font-black tracking-tighter">
+              <span className="text-muted-foreground/60 font-medium">Web</span>
+              <span className="text-primary italic">X</span>
+              <span className="text-foreground">360</span>
+            </span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary/60 leading-none pl-0.5">
+              Solutions
+            </span>
+          </div>
         </Link>
 
         {/* --- DESKTOP NAVIGATION --- */}
@@ -190,7 +197,6 @@ const Navbar: React.FC = () => {
       {mobileOpen && (
         <div className="md:hidden border-t bg-background p-4 flex flex-col gap-6 animate-in slide-in-from-top-2 duration-300 min-h-screen">
 
-          {/* User Profile OR Auth Buttons */}
           {userData ? (
             <div className="flex items-center gap-4 p-4 bg-muted/40 rounded-2xl border border-border/50">
               <Avatar className="h-14 w-14 border-2 border-primary/20">
@@ -204,13 +210,13 @@ const Navbar: React.FC = () => {
             </div>
           ) : (
             <div className="flex flex-col gap-3 p-2">
-              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-1">Getting Started with WebX360</p>
+              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-1">Welcome to WebX360</p>
               <div className="flex flex-col gap-2">
                 <Link to="/login" onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" className="w-full justify-center py-6 text-base font-semibold">Log In</Button>
                 </Link>
                 <Link to="/signup" onClick={() => setMobileOpen(false)}>
-                  <Button className="w-full justify-center py-6 text-base font-semibold">Sign Up / Create Account</Button>
+                  <Button className="w-full justify-center py-6 text-base font-semibold">Create Account</Button>
                 </Link>
               </div>
             </div>
@@ -230,59 +236,25 @@ const Navbar: React.FC = () => {
                 <ChevronRight className="h-4 w-4 opacity-50" />
               </NavLink>
             ))}
-            <NavLink
-              to="/companies"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-all hover:bg-muted"
-              activeClassName="bg-primary/10 text-primary"
-            >
-              Companies (All)
-              <ChevronRight className="h-4 w-4 opacity-50" />
-            </NavLink>
           </nav>
 
           {userData && (
             <div className="flex flex-col gap-2">
               <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-3 mb-1">Account & Admin</p>
-
               <Link
                 to="/profile?edit=true"
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-muted rounded-xl"
               >
                 <Settings className="h-4 w-4 text-primary" />
-                Edit Profile Settings
+                Profile Settings
               </Link>
-
-              {userRole === 'recruiter' && (
-                <>
-                  <NavLink
-                    to="/admin/dashboard"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-muted rounded-xl"
-                    activeClassName="bg-primary/10 text-primary"
-                  >
-                    <LayoutDashboard className="h-4 w-4" />
-                    Admin Dashboard
-                  </NavLink>
-                  <NavLink
-                    to="/admin/companies"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 p-3 text-sm font-bold bg-emerald-500/5 text-emerald-600 rounded-xl border border-emerald-500/10 mt-1"
-                    activeClassName="bg-emerald-500/20 text-emerald-700"
-                  >
-                    <ShieldCheck className="h-4 w-4" />
-                    Manage My Companies
-                  </NavLink>
-                </>
-              )}
-
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-3 p-3 text-sm font-bold text-destructive hover:bg-destructive/5 rounded-xl mt-4"
               >
                 <LogOut className="h-4 w-4" />
-                Logout Account
+                Logout
               </button>
             </div>
           )}
