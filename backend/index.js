@@ -20,14 +20,25 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 // 🟢 FIX: CORS Configuration for Production
+const allowedOrigins = [
+    'https://webx360.vercel.app', // 🟢 Aapka Main Production Link
+    'https://webx360-hy88dmi4h-neeraj814s-projects.vercel.app', // Branch link
+    'http://localhost:5173'
+];
+
 const corsOptions = {
-    // 🟢 Sabse bada change: Is naye Vercel link ko add karein
-    origin: [
-        'https://webx360-hy88dmi4h-neeraj814s-projects.vercel.app', 
-        'https://webx360-neeraj814s-projects.vercel.app', // Main production link
-        'http://localhost:5173'
-    ],
-    credentials: true, // Zaroori hai cookies/token bhejne ke liye
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps)
+        if (!origin) return callback(null, true);
+        
+        // 🟢 Logic: Agar origin list mein hai ya '.vercel.app' contain karta hai
+        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS, Babuji!'));
+        }
+    },
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
 };
