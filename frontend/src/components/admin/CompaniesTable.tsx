@@ -14,7 +14,7 @@ interface Company {
     createdAt: string;
 }
 
-// 2. Define RootState for Redux
+// 2. Define RootState for Redux (Make sure 'company' matches your store key)
 interface RootState {
     company: {
         companies: Company[];
@@ -23,19 +23,24 @@ interface RootState {
 }
 
 const CompaniesTable: React.FC = () => {
-    const { companies, searchCompanyByText } = useSelector((store: RootState) => store.company);
-    const [filterCompany, setFilterCompany] = useState<Company[]>(companies);
+    // Standardize the selector to prevent "undefined" errors
+    const { companies = [], searchCompanyByText = "" } = useSelector((store: RootState) => store.company || {});
+    const [filterCompany, setFilterCompany] = useState<Company[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Safe check for companies array
-        const filteredCompany = companies?.length >= 0 && companies.filter((company) => {
-            if (!searchCompanyByText) {
-                return true;
-            }
-            return company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase());
+        // Optimization: If no search text, show all companies immediately
+        if (!searchCompanyByText.trim()) {
+            setFilterCompany(companies);
+            return;
+        }
+
+        const filtered = companies.filter((company) => {
+            const name = company?.name?.toLowerCase() || "";
+            return name.includes(searchCompanyByText.toLowerCase());
         });
-        setFilterCompany(filteredCompany || []);
+
+        setFilterCompany(filtered);
     }, [companies, searchCompanyByText]);
 
     return (
@@ -51,25 +56,25 @@ const CompaniesTable: React.FC = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {filterCompany?.length === 0 ? (
+                    {filterCompany.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={4} className="text-center py-20 text-muted-foreground">
                                 No companies found. Please register a company first.
                             </TableCell>
                         </TableRow>
                     ) : (
-                        filterCompany?.map((company) => (
+                        filterCompany.map((company) => (
                             <TableRow key={company._id} className="group hover:bg-muted/30 transition-colors">
                                 <TableCell>
                                     <Avatar className="border h-9 w-9">
                                         <AvatarImage src={company.logo} alt={company.name} />
                                         <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
-                                            {company.name.charAt(0).toUpperCase()}
+                                            {company.name ? company.name.charAt(0).toUpperCase() : "C"}
                                         </AvatarFallback>
                                     </Avatar>
                                 </TableCell>
                                 <TableCell className="font-semibold text-foreground">
-                                    {company.name}
+                                    {company.name || "Unnamed Company"}
                                 </TableCell>
                                 <TableCell className="text-muted-foreground">
                                     {company.createdAt ? company.createdAt.split("T")[0] : "N/A"}
