@@ -20,7 +20,9 @@ import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
 // Admin Pages
-import Companies from "./pages/Companies"; // Used for admin listing
+// 🟢 IMPORTANT: Alag components use karein Public aur Admin ke liye
+import Companies from "./pages/Companies"; // Ye Public Page hai (Cards wala)
+import AdminCompanies from "./components/admin/AdminCompanies"; // 👈 Ye Table wala component hona chahiye
 import CompanyCreate from "./components/admin/CompanyCreate";
 import CompanySetup from "./components/admin/CompanySetup";
 import AdminJobs from "./components/admin/AdminJobs";
@@ -45,9 +47,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             
-            {/* 🟢 ADDED: Public Companies route to prevent 404 */}
-            {/* If you have a separate public page for companies, import it here. 
-                Otherwise, this points to your Companies page. */}
+            {/* 🟢 Public Companies Page (Cards style) */}
             <Route path="/companies" element={<Companies />} />
 
             {/* ---------- USER ROUTES ---------- */}
@@ -59,7 +59,6 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            {/* 🟢 MATCHED: This matches the "Edit Profile" link in your Navbar */}
             <Route
               path="/edit-profile"
               element={
@@ -87,12 +86,13 @@ const App = () => (
               }
             />
             
-            {/* Companies Management */}
+            {/* 🟢 Companies Management (Table style) */}
             <Route
               path="/admin/companies"
               element={
                 <AdminRoute>
-                  <Companies />
+                  {/* 🔴 Ab yahan Admin-specific component load hoga */}
+                  <AdminCompanies /> 
                 </AdminRoute>
               }
             />
