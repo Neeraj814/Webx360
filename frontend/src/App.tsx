@@ -22,7 +22,7 @@ import NotFound from "./pages/NotFound";
 // Admin Pages
 // 🟢 IMPORTANT: Alag components use karein Public aur Admin ke liye
 import Companies from "./pages/Companies"; // Ye Public Page hai (Cards wala)
-import AdminCompanies from "./components/admin/AdminCompanies"; // 👈 Ye Table wala component hona chahiye
+import AdminCompanies from "./components/Admin/AdminCompanies"; // 👈 Ye Table wala component hona chahiye
 import CompanyCreate from "./components/admin/CompanyCreate";
 import CompanySetup from "./components/admin/CompanySetup";
 import AdminJobs from "./components/admin/AdminJobs";
