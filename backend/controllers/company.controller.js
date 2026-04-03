@@ -108,11 +108,11 @@ export const getCompanyById = async (req, res) => {
 export const updateCompany = async (req, res) => {
     try {
         const { name, description, website, location } = req.body;
-        const file = req.file; // Multer se aayega
+        const file = req.file; 
         
-        // Cloudinary logic (Optional)
         let logo;
         if (file) {
+            // Cloudinary logic
             const fileUri = getDataUri(file);
             const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
             logo = cloudResponse.secure_url;
@@ -121,26 +121,34 @@ export const updateCompany = async (req, res) => {
         const updateData = { name, description, website, location };
         if(logo) updateData.logo = logo;
 
-        // 🟢 MySQL Update: Sequelize uses 'id'
-        const company = await Company.update(updateData, {
+        // 🟢 MySQL Update using Sequelize
+        // Sequelize update returns an array [affectedCount]
+        const [affectedCount] = await Company.update(updateData, {
             where: {
-                id: req.params.id // 👈 URL wali ID yahan aani chahiye
+                id: req.params.id 
             }
         });
 
-        if (!company) {
+        // Agar affectedCount 0 hai, matlab ID nahi mili
+        if (affectedCount === 0) {
             return res.status(404).json({
-                message: "Company not found.",
+                message: "Company not found or no changes made.",
                 success: false
             });
         }
+
         return res.status(200).json({
             message: "Company information updated.",
             success: true
         });
 
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Internal Error", success: false });
+        console.error("SQL Error Details:", error); // Terminal check karein
+        return res.status(500).json({ 
+            message: "Internal Server Error", 
+            error: error.message, // Debugging ke liye error message bhej rahe hain
+            success: false 
+        });
     }
+}
 }
