@@ -22,7 +22,7 @@ import NotFound from "./pages/NotFound";
 // Admin Pages
 // 🟢 IMPORTANT: Alag components use karein Public aur Admin ke liye
 import Companies from "./pages/Companies"; // Ye Public Page hai (Cards wala)
-//import AdminCompanies from "./components/admin/AdminCompanies"; // 👈 Ye Table wala component hona chahiye
+import AdminCompanies from "./components/admin/AdminCompanies"; // 👈 Ye Table wala component hona chahiye
 import CompanyCreate from "./components/admin/CompanyCreate";
 import CompanySetup from "./components/admin/CompanySetup";
 import AdminJobs from "./components/admin/AdminJobs";
@@ -87,7 +87,7 @@ const App = () => (
             />
             
             {/* 🟢 Companies Management (Table style) */}
-            { /* 🔴 Ab yahan Admin-specific component load hoga 
+             🔴 Ab yahan Admin-specific component load hoga 
             <Route
               path="/admin/companies"
               element={
@@ -97,7 +97,7 @@ const App = () => (
                 </AdminRoute>
               }
             />
-            */}
+            
             <Route
               path="/admin/companies/create"
               element={
