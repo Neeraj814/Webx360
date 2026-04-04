@@ -2,11 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setSingleCompany } from '@/redux/companySlice' // Check path
 import { toast } from 'sonner'
+import useGetCompanyById from '@/hooks/useGetCompanyById' // Custom hook if you have one
 
 const CompanySetup = () => {
-    const params = useParams(); // 🟢 URL se ID nikalne ke liye
+    const params = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    
+    // 1. Fetch data if not present (Important for page refresh)
+    useGetCompanyById(params.id); 
+
+    const { singleCompany } = useSelector(store => store.company);
+    const [loading, setLoading] = useState(false);
+    
     const [input, setInput] = useState({
         name: "",
         description: "",
@@ -14,10 +25,8 @@ const CompanySetup = () => {
         location: "",
         file: null
     });
-    const { singleCompany } = useSelector(store => store.company);
-    const navigate = useNavigate();
 
-    // 🟢 MySQL ID logic: singleCompany.id (not _id)
+    // 2. Sync input with fetched data
     useEffect(() => {
         if (singleCompany) {
             setInput({
@@ -25,10 +34,19 @@ const CompanySetup = () => {
                 description: singleCompany.description || "",
                 website: singleCompany.website || "",
                 location: singleCompany.location || "",
-                file: singleCompany.file || null
+                file: null // File usually starts null for new uploads
             });
         }
     }, [singleCompany]);
+
+    const changeEventHandler = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value });
+    }
+
+    const changeFileHandler = (e) => {
+        const file = e.target.files?.[0];
+        setInput({ ...input, file });
+    }
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -42,11 +60,9 @@ const CompanySetup = () => {
         }
 
         try {
-            // 🟢 CRITICAL FIX: Ensure params.id is used here
+            setLoading(true);
             const res = await axios.put(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
+                headers: { 'Content-Type': 'multipart/form-data' },
                 withCredentials: true
             });
             if (res.data.success) {
@@ -55,16 +71,48 @@ const CompanySetup = () => {
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response?.data?.message || "Update failed");
+            toast.error(error.response?.data?.message || "Internal Server Error (500)");
+        } finally {
+            setLoading(false);
         }
     }
 
     return (
-        // Aapka JSX yahan aayega...
-        <form onSubmit={submitHandler}>
-            {/* Input fields */}
-            <button type="submit">Update</button>
-        </form>
+        <div className='max-w-xl mx-auto my-10 p-8 border rounded-lg shadow-lg'>
+            <form onSubmit={submitHandler}>
+                <div className='flex items-center gap-5 p-4'>
+                    <button onClick={() => navigate("/admin/companies")} className="flex items-center gap-2 text-gray-500 font-semibold">
+                        <span>Back</span>
+                    </button>
+                    <h1 className='font-bold text-xl'>Company Setup</h1>
+                </div>
+                <div className='grid grid-cols-2 gap-4'>
+                    <div>
+                        <label>Company Name</label>
+                        <input type="text" name="name" value={input.name} onChange={changeEventHandler} className="w-full border p-2 rounded" />
+                    </div>
+                    <div>
+                        <label>Description</label>
+                        <input type="text" name="description" value={input.description} onChange={changeEventHandler} className="w-full border p-2 rounded" />
+                    </div>
+                    <div>
+                        <label>Website</label>
+                        <input type="text" name="website" value={input.website} onChange={changeEventHandler} className="w-full border p-2 rounded" />
+                    </div>
+                    <div>
+                        <label>Location</label>
+                        <input type="text" name="location" value={input.location} onChange={changeEventHandler} className="w-full border p-2 rounded" />
+                    </div>
+                    <div className='col-span-2'>
+                        <label>Logo File</label>
+                        <input type="file" accept="image/*" onChange={changeFileHandler} className="w-full border p-2 rounded" />
+                    </div>
+                </div>
+                <button type="submit" disabled={loading} className='w-full mt-8 bg-black text-white p-2 rounded hover:bg-gray-800'>
+                    {loading ? "Updating..." : "Update"}
+                </button>
+            </form>
+        </div>
     )
 }
 
