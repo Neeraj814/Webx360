@@ -103,6 +103,38 @@ export const getCompanyById = async (req, res) => {
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 }
+// delte company
+export const deleteCompany = async (req, res) => {
+    try {
+        const companyId = req.params.id;
+
+        // 🟢 MySQL Delete Query using Sequelize
+        const company = await Company.destroy({
+            where: {
+                id: companyId
+            }
+        });
+
+        if (!company) {
+            return res.status(404).json({
+                message: "Company not found.",
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            message: "Company deleted successfully.",
+            success: true
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false
+        });
+    }
+}
 
 // 5. UPDATE COMPANY
 export const updateCompany = async (req, res) => {
