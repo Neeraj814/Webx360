@@ -5,7 +5,8 @@ import {
     getCompanyById, 
     registerCompany, 
     updateCompany, 
-    getAllCompanies // 👈 Import the new controller
+    getAllCompanies,
+    deleteCompany
 } from "../controllers/company.controller.js";
 import { singleUpload } from "../middlewares/multer.js";
 
@@ -27,5 +28,7 @@ router.route("/get/:id").get(isAuthenticated, getCompanyById);
 
 // 5. Update company details
 router.route("/update/:id").put(isAuthenticated, singleUpload, updateCompany);
+//delete company
+router.route("/delete/:id").delete(isAuthenticated, deleteCompany);
 
 export default router;
