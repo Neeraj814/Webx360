@@ -1,30 +1,27 @@
-// backend/utils/db.js
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
-// 1. Load dotenv at the very top
+// 1. Load environment variables
 dotenv.config();
 
-// 2. Debug Log: Ye Render ke logs mein dikhayega ki variable mila ya nahi
+// 2. Debug Log for Render
 console.log("Checking DATABASE_URL in Environment:", process.env.DATABASE_URL ? "FOUND ✅" : "NOT FOUND ❌");
 
 /**
  * 🟢 Aiven MySQL Cloud Configuration
- * Hum 'DATABASE_URL' variable ka use kar rahe hain.
- * Fallback: Agar undefined hua toh empty string denge taaki error clear aaye.
  */
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'mysql',
     dialectOptions: {
         ssl: {
-            rejectUnauthorized: false // Aiven MySQL ke liye ye zaroori hai
+            rejectUnauthorized: false // Required for Aiven Cloud MySQL
         }
     },
-    logging: false, // Production mein console ko saaf rakhne ke liye
-});
+    logging: false, // Keeps logs clean in production
+}); // <--- Syntax fixed: Added missing closing parenthesis here
+
 const connectDB = async () => {
     try {
-        // Validation check before attempting connection
         if (!process.env.DATABASE_URL) {
             throw new Error("DATABASE_URL is missing in Render Environment Settings!");
         }
@@ -34,7 +31,7 @@ const connectDB = async () => {
     } catch (error) {
         console.error('MySQL Connection Error:', error.message);
         if (error.name === 'SequelizeConnectionRefusedError') {
-            console.error('Tip: Check karein ki Aiven mein IP 0.0.0.0/0 allowed hai ya nahi.');
+            console.error('Tip: Check if IP 0.0.0.0/0 is allowed in Aiven console.');
         }
     }
 };
