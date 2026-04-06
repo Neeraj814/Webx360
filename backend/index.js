@@ -31,8 +31,10 @@ const corsOptions = {
         // Allow requests with no origin (like mobile apps)
         if (!origin) return callback(null, true);
         
-        // 🟢 Logic: Agar origin list mein hai ya '.vercel.app' contain karta hai
-        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
+        // Match specific origins or any Vercel preview link
+        const isAllowed = allowedOrigins.includes(origin) || origin.endsWith(".vercel.app");
+        
+        if (isAllowed) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS, Babuji!'));
