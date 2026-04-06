@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-import { sequelize } from "./utils/db.js"; 
+import connectDB, { sequelize } from "./utils/db.js"; 
 import "./models/index.js"; 
 
 import userRoute from "./routes/user.route.js";
@@ -16,13 +16,12 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// 🟢 FIX: CORS Configuration for Production
+// 🟢 CORS Configuration for Webx360
 const allowedOrigins = [
-    'https://webx360.vercel.app', // 🟢 Aapka Main Production Link
-    'https://webx360-hy88dmi4h-neeraj814s-projects.vercel.app', // Branch link
+    'https://webx360.vercel.app',
     'http://localhost:5173'
 ];
 
@@ -46,26 +45,31 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
 // API Routes
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 
+// Fallback for undefined routes
+app.use((req, res) => {
+    res.status(404).json({ message: "Route not found, Babuji!", success: false });
+});
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, async () => {
     try {
-        await sequelize.authenticate();
-        console.log('Connection to MySQL has been established successfully. 🚀');
+        // Initialize Database Connection
+        await connectDB();
         
-        // Use { alter: true } only in development. 
-        // Production mein sync carefully use karein.
+        // Synchronize Models (Use { alter: true } carefully in production)
         await sequelize.sync({ alter: true }); 
-        console.log("All MySQL models were synchronized successfully. ✅");
+        console.log("All MySQL models synchronized successfully. ✅");
         
         console.log(`Server running at port ${PORT} ✅`);
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
+        console.error('Unable to start the server:', error);
     }
 });
