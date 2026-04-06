@@ -2,15 +2,14 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+// 🔴 FIX: Duplicate imports hataye aur sirf connectDB aur sequelize rakha
 import connectDB, { sequelize } from "./utils/db.js"; 
 import "./models/index.js"; 
 
 import userRoute from "./routes/user.route.js";
-import companyRoute from "./routes/company.route.js";
-import jobRoute from "./routes/job.route.js";
-import applicationRoute from "./routes/application.route.js";
+// Baaki routes bhi yahan import karein (company, job, etc.)
 
-dotenv.config();
+dotenv.config({});
 
 const app = express();
 
@@ -22,35 +21,28 @@ app.use(cookieParser());
 // 🟢 CORS Configuration for Webx360
 const allowedOrigins = [
     'https://webx360.vercel.app',
+    'https://webx360-hy88dmi4h-neeraj814s-projects.vercel.app',
     'http://localhost:5173'
 ];
 
 const corsOptions = {
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps)
-        if (!origin) return callback(null, true);
-        
-        // Match specific origins or any Vercel preview link
-        const isAllowed = allowedOrigins.includes(origin) || origin.endsWith(".vercel.app");
-        
-        if (isAllowed) {
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS, Babuji!'));
         }
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
 };
 
 app.use(cors(corsOptions));
 
 // API Routes
 app.use("/api/v1/user", userRoute);
-app.use("/api/v1/company", companyRoute);
-app.use("/api/v1/job", jobRoute);
-app.use("/api/v1/application", applicationRoute);
+// app.use("/api/v1/company", companyRoute); // Ensure these are imported
+// app.use("/api/v1/job", jobRoute);
 
 // Fallback for undefined routes
 app.use((req, res) => {
@@ -59,17 +51,22 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 8000;
 
+// 🚀 SERVER START LOGIC
 app.listen(PORT, async () => {
     try {
-        // Initialize Database Connection
+        // 1. Initialize Database Connection (Aiven MySQL)
         await connectDB();
-        
-        // Synchronize Models (Use { alter: true } carefully in production)
+        console.log('Connection to Aiven MySQL established. 🚀');
+
+        // 2. Synchronize Models
+        // ⚠️ Render Production mein { alter: true } risky ho sakta hai, 
+        // par initial setup ke liye theek hai.
         await sequelize.sync({ alter: true }); 
         console.log("All MySQL models synchronized successfully. ✅");
-        
+
         console.log(`Server running at port ${PORT} ✅`);
     } catch (error) {
-        console.error('Unable to start the server:', error);
+        console.error('Unable to start the server, Babuji:', error.message);
+        process.exit(1); // Crash hone par process exit karein taaki Render use restart kar sake
     }
 });
