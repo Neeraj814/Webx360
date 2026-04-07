@@ -3,18 +3,16 @@ import { Link } from "react-router-dom";
 import { categories } from "@/utils/filterOptions";
 
 const CategorySection = () => {
-  // Container variants for staggered children
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1, // Smoothly delays each card
+        staggerChildren: 0.1, 
       },
     },
   };
 
-  // Individual card variants
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
@@ -58,16 +56,15 @@ const CategorySection = () => {
             <motion.div
               key={cat.name}
               variants={itemVariants}
-              whileHover={{ scale: 1.03, y: -5 }} // Subtle lift on hover
-              whileTap={{ scale: 0.98 }} // "Click" feel
+              whileHover={{ scale: 1.03, y: -5 }} 
+              whileTap={{ scale: 0.98 }} 
             >
               <Link
                 to={`/jobs?category=${encodeURIComponent(cat.name)}`}
                 className="group flex items-center gap-4 rounded-xl border bg-card p-5 shadow-sm transition-all hover:shadow-lg hover:border-primary/40 hover:bg-accent/5"
               >
-                {/* Icon Animation */}
                 <motion.span 
-                  whileHover={{ rotate: [0, -10, 10, 0] }} // Wiggle on hover
+                  whileHover={{ rotate: [0, -10, 10, 0] }} 
                   className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-3xl shadow-inner"
                 >
                   {cat.icon}
