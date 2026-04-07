@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MapPin, Briefcase, DollarSign, RotateCcw } from "lucide-react";
 
-// Update these to match your MongoDB data values exactly
 const jobTypes = ["Full-time", "Part-time", "Remote", "Internship"];
 const locations = ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai", "Noida"];
 const salaryRanges = ["0-40k", "42k-1lakh", "1lakh-5lakh"];
