@@ -3,11 +3,9 @@ import { useSelector } from 'react-redux';
 import { Activity, Clock, Database } from 'lucide-react';
 
 const LiveStatus = () => {
-    // 🟢 Pulling real data from Redux
     const { allAdminJobs } = useSelector((store) => store.job);
     const { companies } = useSelector((store) => store.company);
 
-    // Get the most recent entries
     const latestJob = allAdminJobs && allAdminJobs.length > 0 ? allAdminJobs[0] : null;
     const latestCompany = companies && companies.length > 0 ? companies[0] : null;
 
@@ -24,7 +22,6 @@ const LiveStatus = () => {
             </div>
             
             <ul className="space-y-4">
-                {/* 🔵 Dynamic Job Update */}
                 <li className="flex items-start gap-3">
                     <div className={`h-2 w-2 mt-1.5 rounded-full ${latestJob ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-slate-300'}`} />
                     <div>
@@ -42,7 +39,6 @@ const LiveStatus = () => {
                     </div>
                 </li>
 
-                {/* 🟠 Dynamic Company Update */}
                 <li className="flex items-start gap-3">
                     <div className={`h-2 w-2 mt-1.5 rounded-full ${latestCompany ? 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.5)]' : 'bg-slate-300'}`} />
                     <div>
