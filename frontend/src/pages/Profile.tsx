@@ -40,7 +40,6 @@ const Profile: React.FC = () => {
                 
                 {/* --- PROFILE HEADER CARD --- */}
                 <div className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm relative overflow-hidden">
-                    {/* Subtle decorative background element */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16" />
 
                     <div className="flex flex-col md:flex-row justify-between items-start gap-6">
@@ -166,7 +165,6 @@ const Profile: React.FC = () => {
     );  
 };
 
-// Helper component for simple badge replacement if needed
 const Badge = ({ children, className, variant }: any) => (
     <span className={`px-2 py-1 text-xs font-bold rounded ${className} ${variant === 'secondary' ? 'bg-gray-100 text-gray-600' : ''}`}>
         {children}
