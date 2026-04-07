@@ -3,23 +3,21 @@ import LatestJobCards from "./LatestJobCards";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion"; // Added for animation
+import { motion } from "framer-motion"; 
 
 const LatestJobs = () => {
   const { allJobs } = useSelector((store: any) => store.job);
 
-  // Take the 6 most recent jobs
   const latestJobs = allJobs?.length > 0 
     ? [...allJobs].reverse().slice(0, 6) 
     : [];
 
-  // Animation variants for the grid container
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1, // Each card starts 0.1s after the previous one
+        staggerChildren: 0.1, 
       },
     },
   };
@@ -27,7 +25,6 @@ const LatestJobs = () => {
   return (
     <section className="py-16 lg:py-20 overflow-hidden">
       <div className="container mx-auto px-4">
-        {/* Header Animation */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -51,7 +48,6 @@ const LatestJobs = () => {
           </Link>
         </motion.div>
 
-        {/* Animated Job Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
