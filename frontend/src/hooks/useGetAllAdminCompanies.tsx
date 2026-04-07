@@ -9,7 +9,6 @@ const useGetAllAdminCompanies = () => {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                // This calls the API that filters by YOUR logged-in ID
                 const res = await axios.get(`${COMPANY_API_END_POINT}/get`, { withCredentials: true });
                 if (res.data.success) {
                     dispatch(setCompanies(res.data.companies));
