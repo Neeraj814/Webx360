@@ -36,13 +36,11 @@ const Signup = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        // 1. Validation
         if (!input.fullname || !input.email || !input.phoneNumber || !input.password || !input.role || !input.file) {
             toast({ title: "Error", description: "All fields including profile photo are required.", variant: "destructive" });
             return;
         }
 
-        // 2. Prepare FormData for Cloudinary/Backend
         const formData = new FormData();
         formData.append("fullname", input.fullname);
         formData.append("email", input.email);
