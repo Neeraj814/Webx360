@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// 1. Define the Company structure
 export interface Company {
     _id: string;
     name: string;
@@ -12,14 +11,12 @@ export interface Company {
     createdAt: string;
 }
 
-// 2. Define the State Interface
 interface CompanyState {
     singleCompany: Company | null;
     companies: Company[];
     searchCompanyByText: string;
 }
 
-// 3. Set Initial State
 const initialState: CompanyState = {
     singleCompany: null,
     companies: [],
@@ -30,7 +27,6 @@ const companySlice = createSlice({
     name: "company",
     initialState,
     reducers: {
-        // JI BABUJI: Typed actions for single company and lists
         setSingleCompany: (state, action: PayloadAction<Company | null>) => {
             state.singleCompany = action.payload;
         },
