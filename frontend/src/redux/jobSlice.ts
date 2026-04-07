@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// 🟢 MySQL Compatible Job Interface
 export interface Job {
-    id: string; // Changed from _id to id
+    id: string; 
     title: string;
     description: string;
     salary: number;
@@ -10,14 +9,14 @@ export interface Job {
     jobType: string;
     experienceLevel: number;
     position: number;
-    category: string; // Added category
-    jobWebsite: string; // Added website
+    category: string; 
+    jobWebsite: string; 
     company: {
-        id: string; // Changed from _id to id
+        id: string; 
         name?: string;
         logo?: string;
     } | string; 
-    applications?: any[]; // For calculating total applicants
+    applications?: any[]; 
     createdAt: string; 
 }
 
@@ -44,13 +43,12 @@ const jobSlice = createSlice({
     initialState,
     reducers: {
         setAllJobs: (state, action: PayloadAction<Job[]>) => {
-            state.allJobs = action.payload || []; // Ensure it defaults to empty array
+            state.allJobs = action.payload || []; 
         },
         setSingleJob: (state, action: PayloadAction<Job | null>) => {
             state.singleJob = action.payload;
         },
         setAllAdminJobs: (state, action: PayloadAction<Job[]>) => {
-            // 🟢 FORCE RESET: If payload is null/undefined, set to empty
             state.allAdminJobs = action.payload || []; 
         },
         setSearchJobByText: (state, action: PayloadAction<string>) => {
@@ -62,7 +60,6 @@ const jobSlice = createSlice({
         setSearchedQuery: (state, action: PayloadAction<string>) => {
             state.searchedQuery = action.payload;
         },
-        // 🟢 NEW: Clear all job data (Use this on Logout)
         clearJobState: (state) => {
             state.allAdminJobs = [];
             state.allJobs = [];
