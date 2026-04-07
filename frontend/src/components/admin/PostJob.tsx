@@ -10,11 +10,9 @@ import { JOB_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { Loader2, BriefcaseIcon, LinkIcon, LayoutGrid } from 'lucide-react' 
-// 🟢 Logic Change: Import the hook to fetch your specific companies
 import useGetAllAdminCompanies from '@/hooks/useGetAdminCompanies'; 
 
 const PostJob: React.FC = () => {
-    // 🟢 Logic Change: Fetch only your companies on component mount
     useGetAllAdminCompanies();
 
     const [input, setInput] = useState({
@@ -35,7 +33,6 @@ const PostJob: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    // 🟢 Logic Change: This list now contains only companies registered by YOU
     const { companies } = useSelector((store: any) => store.company);
 
     const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,11 +56,9 @@ const PostJob: React.FC = () => {
         try {
             setLoading(true);
             
-            // 🛠️ Fix for 400 Bad Request: Ensure number fields are sent as Numbers
             const payload = {
                 ...input,
                 position: Number(input.position),
-                // Only convert to Number if your backend schema requires it for salary/exp
             };
 
             const res = await axios.post(`${JOB_API_END_POINT}/post`, payload, {
@@ -75,7 +70,6 @@ const PostJob: React.FC = () => {
                 navigate("/admin/jobs");
             }
         } catch (error: any) {
-            // Check the network response message to see exactly what the backend disliked
             toast.error(error.response?.data?.message || "Something went wrong");
         } finally {
             setLoading(false);
