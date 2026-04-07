@@ -6,12 +6,10 @@ import { setSearchedQuery } from '@/redux/jobSlice';
 import { useNavigate } from 'react-router-dom';
 
 
-// Define the shape of your Redux Store (RootState)
 interface RootState {
     auth: {
         user: {
             role: string;
-            // add other user properties if needed, e.g., fullname: string;
         } | null;
     };
 }
@@ -21,13 +19,11 @@ const HeroSection: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Get user from Redux with Type Safety
     const { user } = useSelector((store: RootState) => store.auth);
 
     const searchJobHandler = (): void => {
         dispatch(setSearchedQuery(query));
         
-        // Dynamic navigation based on role
         if (user?.role === 'recruiter') {
             navigate("/admin/jobs");
         } else {
