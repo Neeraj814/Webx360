@@ -36,7 +36,6 @@ const UpdateProfileDialog: React.FC<Props> = ({ open, setOpen }) => {
     file: null as File | null,
   });
 
-  // ✅ Sync user data
   useEffect(() => {
     if (user) {
       setInput({
@@ -116,7 +115,6 @@ const UpdateProfileDialog: React.FC<Props> = ({ open, setOpen }) => {
             </DialogDescription>
           </div>
 
-          {/* Professional Close Button */}
           <button
             onClick={() => setOpen(false)}
             className="rounded-md p-2 hover:bg-muted transition"
@@ -128,9 +126,8 @@ const UpdateProfileDialog: React.FC<Props> = ({ open, setOpen }) => {
 
         {/* FORM */}
         <form onSubmit={submitHandler}>
-          {/* Scrollable body */}
           <div className="max-h-[60vh] overflow-y-auto px-6 py-4 space-y-4">
-
+            
             <div>
               <Label>Name</Label>
               <Input name="fullname" value={input.fullname} onChange={changeEventHandler} />
