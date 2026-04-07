@@ -11,16 +11,13 @@ interface Applicant {
         resume?: string;
         resumeOriginalName?: string;
     };
-    // If your backend returns the specific application status
     status?: 'pending' | 'accepted' | 'rejected'; 
 }
 
-// 2. Define the State Interface
 interface ApplicationState {
-    applicants: any | null; // Keeping it 'any' or 'Applicant[]' based on your API nesting
+    applicants: any | null; 
 }
 
-// 3. Set Initial State
 const initialState: ApplicationState = {
     applicants: null,
 };
@@ -29,7 +26,6 @@ const applicationSlice = createSlice({
     name: 'application',
     initialState,
     reducers: {
-        // JI BABUJI: Typed action for setting all applicants
         setAllApplicants: (state, action: PayloadAction<any>) => {
             state.applicants = action.payload;
         }
