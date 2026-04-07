@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import { Building2, Briefcase, Users, Plus, Activity, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-// 🟢 Sahi MySQL Hooks call kar rahe hain
+/
 import useGetAdminCompanies from '@/hooks/useGetAdminCompanies'; 
 import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'; 
 import Navbar from "@/components/shared/Navbar";
 
 const LiveStatus = ({ jobs, companies, totalApplicants }: { jobs: any[], companies: any[], totalApplicants: number }) => {
-    // 🟢 Reverse logic: MySQL se data ASC order mein aata hai, reverse se 'Latest' upar dikhega
+    
     const latestJob = jobs && jobs.length > 0 ? [...jobs].reverse()[0] : null;
     const latestCompany = companies && companies.length > 0 ? [...companies].reverse()[0] : null;
 
@@ -56,13 +56,13 @@ const LiveStatus = ({ jobs, companies, totalApplicants }: { jobs: any[], compani
 };
 
 const AdminDashboard: React.FC = () => {
-    // 🟢 Calling Hooks to load data into Redux
+    
     useGetAdminCompanies();
     useGetAllAdminJobs();
 
     const navigate = useNavigate();
     
-    // 🔴 Dhyan Dein Babuji: Check kijiye ki aapka Redux slice 'companies' use kar raha hai ya 'allCompanies'
+    
     const { user } = useSelector((store: any) => store.auth);
     const { allAdminJobs } = useSelector((store: any) => store.job);
     const { companies } = useSelector((store: any) => store.company); 
@@ -74,7 +74,7 @@ const AdminDashboard: React.FC = () => {
             label: "Total Companies",
             value: companies?.length || 0,
             icon: <Building2 className="text-blue-600" />,
-            path: "/admin/companies", // 👈 Ensure this matches App.jsx route
+            path: "/admin/companies", // 
             color: "group-hover:border-blue-200"
         },
         {
@@ -88,7 +88,7 @@ const AdminDashboard: React.FC = () => {
             label: "Total Applicants",
             value: totalApplicants || 0,
             icon: <Users className="text-emerald-600" />,
-            path: "/admin/jobs", // Usually redirected to jobs to see applicants
+            path: "/admin/jobs", 
             color: "group-hover:border-emerald-200"
         },
     ];
