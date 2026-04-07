@@ -1,19 +1,16 @@
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 
-// 1. Create a centralized Axios instance
-// This ensures 'withCredentials' is sent every time for your JWT cookies
 const API = axios.create({
     baseURL: USER_API_END_POINT, 
     withCredentials: true,
 });
 
-// 2. Define the User Interface matching your MongoDB Schema
 export interface AuthUser {
     _id: string;
-    fullname: string;      // Back-end uses 'fullname'
+    fullname: string;      
     email: string;
-    phoneNumber: string;   // Back-end uses 'phoneNumber'
+    phoneNumber: string;   
     role: "student" | "recruiter";
     profile: {
         bio?: string;
