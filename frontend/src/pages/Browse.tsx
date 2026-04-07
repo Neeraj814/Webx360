@@ -5,14 +5,12 @@ import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/Footer";
 import FilterCard from "@/components/FilterCard";
 import LatestJobCards from "@/components/LatestJobCards";
-import { useSelector, useDispatch } from "react-redux"; // Added
-import useGetAllJobs from "@/hooks/useGetAllJobs"; // Custom hook to fetch jobs
+import { useSelector, useDispatch } from "react-redux"; 
+import useGetAllJobs from "@/hooks/useGetAllJobs"; 
 
 const Browse = () => {
-  // 1. Fetch all jobs from DB when page loads
   useGetAllJobs();
 
-  // 2. Get real data from Redux
   const { allJobs } = useSelector((store: any) => store.job);
   
   const [searchParams] = useSearchParams();
@@ -35,25 +33,20 @@ const Browse = () => {
     setSalaryRange("");
   };
 
-  // 3. Updated Filter Logic for MongoDB Fields
   const filtered = useMemo(() => {
     if (!allJobs) return [];
 
     return allJobs.filter((job: any) => {
-      // Check title, company name, or requirements (skills)
       const matchesQuery =
         !query ||
         job?.title?.toLowerCase().includes(query.toLowerCase()) ||
         job?.company?.name?.toLowerCase().includes(query.toLowerCase()) ||
         job?.requirements?.some((req: string) => req.toLowerCase().includes(query.toLowerCase()));
       
-      // Check Job Type (Full-time, Part-time, etc.)
       const matchesType = selectedTypes.length === 0 || selectedTypes.includes(job?.jobType);
       
-      // Check Location
       const matchesLocation = !selectedLocation || job?.location === selectedLocation;
       
-      // Check Category (Coming from Home Page)
       const matchesCategory = !initialCategory || job?.category === initialCategory;
       
       return matchesQuery && matchesType && matchesLocation && matchesCategory;
