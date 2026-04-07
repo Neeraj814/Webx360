@@ -28,7 +28,7 @@ const AdminJobsTable: React.FC = () => {
         const filteredJobs = allAdminJobs?.filter((job: any) => {
             if (!searchJobByText) return true;
             
-            // ✅ Safely handle cases where company might be an ID string or an Object
+            
             const companyName = typeof job?.company === 'object' 
                 ? job?.company?.name 
                 : "Company Name Not Found";
@@ -96,7 +96,6 @@ const AdminJobsTable: React.FC = () => {
                         filterJobs.map((job: any) => (
                             <TableRow key={job._id} className="hover:bg-muted/30 transition-colors group">
                                 <TableCell className="font-semibold text-slate-900">
-                                    {/* ✅ Check if company was properly populated by the backend */}
                                     {typeof job?.company === 'object' ? job?.company?.name : "N/A (Not Populated)"}
                                 </TableCell>
                                 <TableCell>
