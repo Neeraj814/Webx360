@@ -9,29 +9,25 @@ import { COMPANY_API_END_POINT } from '@/utils/constant';
 import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
 import { setSingleCompany } from '@/redux/companySlice';
-import { Loader2 } from 'lucide-react'; // Added for better UX
+import { Loader2 } from 'lucide-react'; 
 
 const CompanyCreate: React.FC = () => {
     const navigate = useNavigate();
     const [companyName, setCompanyName] = useState<string>("");
-    const [loading, setLoading] = useState<boolean>(false); // Added loading state
+    const [loading, setLoading] = useState<boolean>(false); 
     const dispatch = useDispatch();
 
-    // Inside CompanyCreate.tsx
     const registerNewCompany = async () => {
         try {
             const res = await axios.post(`${COMPANY_API_END_POINT}/register`, { companyName }, { withCredentials: true });
 
             if (res?.data?.success) {
-                // 1. Store the basic company in Redux
                 dispatch(setSingleCompany(res.data.company));
 
-                // 2. Extract the new ID
                 const companyId = res?.data?.company?._id;
 
                 toast.success("Company name registered! Now let's complete the setup.");
 
-                // 3. MANDATORY REDIRECT to the Setup Page
                 navigate(`/admin/companies/${companyId}`);
             }
         } catch (error: any) {
