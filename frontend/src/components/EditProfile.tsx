@@ -27,7 +27,6 @@ const EditProfile = () => {
     file: null as File | null,
   });
 
-  // ✅ Load user data
   useEffect(() => {
     if (user) {
       setInput({
@@ -74,7 +73,7 @@ const EditProfile = () => {
       if (res.data.success) {
         dispatch(setUser(res.data.user));
         toast.success("Profile updated successfully");
-        navigate("/profile"); // 🔥 go back
+        navigate("/profile"); 
       }
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Update failed");
