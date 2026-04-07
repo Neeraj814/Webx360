@@ -3,16 +3,15 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
 import { useSelector, useDispatch } from 'react-redux'
-import { setSingleCompany } from '@/redux/companySlice' // Check path
+import { setSingleCompany } from '@/redux/companySlice' 
 import { toast } from 'sonner'
-import useGetCompanyById from '@/hooks/useGetCompanyById' // Custom hook if you have one
+import useGetCompanyById from '@/hooks/useGetCompanyById' 
 
 const CompanySetup = () => {
     const params = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
-    // 1. Fetch data if not present (Important for page refresh)
     useGetCompanyById(params.id); 
 
     const { singleCompany } = useSelector(store => store.company);
@@ -26,7 +25,6 @@ const CompanySetup = () => {
         file: null
     });
 
-    // 2. Sync input with fetched data
     useEffect(() => {
         if (singleCompany) {
             setInput({
@@ -34,7 +32,7 @@ const CompanySetup = () => {
                 description: singleCompany.description || "",
                 website: singleCompany.website || "",
                 location: singleCompany.location || "",
-                file: null // File usually starts null for new uploads
+                file: null 
             });
         }
     }, [singleCompany]);
