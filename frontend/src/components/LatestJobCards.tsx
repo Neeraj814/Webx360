@@ -12,7 +12,6 @@ interface LatestJobCardProps {
 const LatestJobCards = ({ job, index }: LatestJobCardProps) => {
     const navigate = useNavigate();
 
-    // ✅ FIXED: Corrected math for daysAgo
     const daysAgoFunction = (mongodbTime: any) => {
         const createdAt = new Date(mongodbTime);
         const currentTime = new Date();
@@ -22,7 +21,7 @@ const LatestJobCards = ({ job, index }: LatestJobCardProps) => {
     }
 
     const handleApply = (e: React.MouseEvent) => {
-        e.preventDefault(); // ✅ Stops the <Link> from triggering
+        e.preventDefault(); 
         navigate(`/description/${job?._id}`);
     };
 
