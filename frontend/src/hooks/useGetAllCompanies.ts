@@ -24,7 +24,6 @@ const useGetAllAdminCompanies = () => {
         
         fetchCompanies();
         
-        // Optional: Adding a cleanup or a dependency check is good practice
     }, [dispatch]); 
 };
 
