@@ -10,13 +10,11 @@ const useGetAllAdminCompanies = () => {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                // ✅ Using /get ensures the backend filters by req.id (Your companies only)
                 const res = await axios.get(`${COMPANY_API_END_POINT}/get`, { 
                     withCredentials: true 
                 });
 
                 if (res.data.success) {
-                    // Make sure your backend returns 'companies' (plural)
                     dispatch(setCompanies(res.data.companies)); 
                 }
             } catch (error: any) {
