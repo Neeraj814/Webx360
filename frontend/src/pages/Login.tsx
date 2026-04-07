@@ -12,7 +12,6 @@ import { motion } from "framer-motion";
 import { Mail, Lock, Loader2 } from "lucide-react";
 
 const Login = () => {
-  // Using a single state object is cleaner for forms
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -38,12 +37,10 @@ const Login = () => {
 
     setSubmitting(true);
     try {
-      // Pass the input object or individual fields based on your AuthContext definition
       await login(input.email, input.password, input.role);
       
       toast({ title: "Welcome back!", description: "Logged in successfully." });
       
-      // Dynamic navigation based on role
       if (input.role === "recruiter") {
         navigate("/admin/companies");
       } else {
@@ -52,7 +49,6 @@ const Login = () => {
     } catch (err: any) {
       toast({
         title: "Login Failed",
-        // Show the actual message from your backend ('Incorrect email', etc.)
         description: err.response?.data?.message || "Something went wrong",
         variant: "destructive",
       });
