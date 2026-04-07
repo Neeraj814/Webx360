@@ -1,20 +1,18 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, X } from "lucide-react";
-import { Button } from "@/components/ui/button"; // Fixed path
-import { Badge } from "@/components/ui/badge";   // Fixed path
+import { Button } from "@/components/ui/button"; 
+import { Badge } from "@/components/ui/badge";   
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/Footer";
 import JobCard from "@/components/JobCard";
-import { useSelector } from "react-redux"; // Added to get real data
-import useGetAllJobs from "@/hooks/useGetAllJobs"; // Hook to fetch from DB
+import { useSelector } from "react-redux"; 
+import useGetAllJobs from "@/hooks/useGetAllJobs"; 
 import { jobTypes, locations } from "@/utils/filterOptions";
 
 const Jobs = () => {
-  // 1. Fetch jobs from the backend
   useGetAllJobs();
 
-  // 2. Access jobs from Redux store instead of mock file
   const { allJobs } = useSelector((store: any) => store.job);
 
   const [searchParams] = useSearchParams();
@@ -31,7 +29,6 @@ const Jobs = () => {
       prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
 
-  // 3. Filter logic updated for MongoDB fields
   const filtered = useMemo(() => {
     if (!allJobs) return [];
 
@@ -42,7 +39,6 @@ const Jobs = () => {
         job?.company?.name?.toLowerCase().includes(query.toLowerCase()) ||
         job?.description?.toLowerCase().includes(query.toLowerCase());
       
-      // Updated to use 'jobType' from your DB
       const matchesType = selectedTypes.length === 0 || selectedTypes.includes(job?.jobType);
       const matchesLocation = !selectedLocation || job?.location === selectedLocation;
       const matchesCategory = !initialCategory || job?.category === initialCategory;
