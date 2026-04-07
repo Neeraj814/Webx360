@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Edit2, MoreHorizontal, Trash2 } from 'lucide-react' // 🟢 Trash2 icon add kiya
+import { Edit2, MoreHorizontal, Trash2 } from 'lucide-react' 
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -38,7 +38,7 @@ const CompaniesTable: React.FC = () => {
         setFilterCompany(filtered);
     }, [companies, searchCompanyByText]);
 
-    // 🟢 Delete Handler Logic
+    
     const deleteHandler = async (companyId: string) => {
         if (!window.confirm("Are you sure you want to delete this company?")) return;
 
@@ -48,9 +48,7 @@ const CompaniesTable: React.FC = () => {
             });
             if (res.data.success) {
                 toast.success(res.data.message);
-                // Note: Aapko yahan Redux store ko bhi update karna chahiye 
-                // taaki UI se row bina refresh ke hat jaye.
-                // dispatch(removeCompany(companyId)); 
+                
             }
         } catch (error: any) {
             console.log(error);
@@ -107,8 +105,6 @@ const CompaniesTable: React.FC = () => {
                                                     <Edit2 className='w-4 h-4' />
                                                     <span>Edit</span>
                                                 </div>
-
-                                                {/* 🟢 Delete Option */}
                                                 <div 
                                                     onClick={() => companyId && deleteHandler(companyId)} 
                                                     className='flex items-center gap-2 px-3 py-2 text-sm font-medium hover:bg-red-50 text-red-600 rounded-md cursor-pointer transition-colors mt-1'
