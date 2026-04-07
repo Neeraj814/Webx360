@@ -8,7 +8,6 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user } = useSelector((store: any) => store.auth);
 
-  // ✅ Only check login
   if (!user) {
     return <Navigate to="/login" />;
   }
