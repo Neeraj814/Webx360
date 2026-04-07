@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { authApi, AuthUser } from "@/lib/api";
-import { useDispatch } from "react-redux"; // Import dispatch
-import { setUser } from "@/redux/authSlice"; // Adjust path to your slice
+import { useDispatch } from "react-redux"; 
+import { setUser } from "@/redux/authSlice"; 
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       const res = await authApi.login(email, password, role);
       if (res.success) {
-        // SAVE TO REDUX INSTEAD OF LOCAL STATE
         dispatch(setUser(res.user)); 
       }
     } catch (error: any) {
@@ -46,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     await authApi.logout();
-    dispatch(setUser(null)); // CLEAR REDUX
+    dispatch(setUser(null)); 
   };
 
   return (
