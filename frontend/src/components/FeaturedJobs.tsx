@@ -3,13 +3,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, Variants } from "framer-motion";
-import { useSelector } from "react-redux"; // Added
+import { useSelector } from "react-redux"; 
 
 const FeaturedJobs: React.FC = () => {
-  // 1. Get real data from Redux
   const { allJobs } = useSelector((store: any) => store.job);
 
-  // 🔥 Container animation (stagger children)
   const containerVariants: Variants = {
     hidden: {},
     visible: {
@@ -19,7 +17,6 @@ const FeaturedJobs: React.FC = () => {
     },
   };
 
-  // 🔥 Item animation
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -42,7 +39,6 @@ const FeaturedJobs: React.FC = () => {
       viewport={{ once: true }}
     >
       <div className="container mx-auto px-4">
-        {/* Heading Animation */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,7 +65,7 @@ const FeaturedJobs: React.FC = () => {
           </Link>
         </motion.div>
 
-        {/* Animated Job Cards */}
+        {/*  Job Cards */}
         <motion.div
           className="mt-8 grid gap-5 md:grid-cols-2"
           variants={containerVariants}
@@ -77,11 +73,10 @@ const FeaturedJobs: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {/* 2. Map through real jobs instead of mockJobs */}
           {allJobs?.length > 0 ? (
             allJobs.slice(0, 4).map((job: any, i: number) => (
               <motion.div
-                key={job._id} // Using MongoDB ID
+                key={job._id} 
                 variants={itemVariants}
                 whileHover={{ scale: 1.02, y: -5 }}
                 whileTap={{ scale: 0.98 }}
