@@ -11,7 +11,6 @@ import {
 import { motion } from "framer-motion";
 import { useSelector } from 'react-redux';
 
-// Enhanced status styles to match your design system
 const statusStyles: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700 border-amber-200",
   accepted: "bg-emerald-100 text-emerald-700 border-emerald-200",
@@ -19,7 +18,6 @@ const statusStyles: Record<string, string> = {
 };
 
 const AppliedJobTable = () => {
-  // ✅ Extracting real data from Redux instead of mock data
   const { allAppliedJobs } = useSelector((store: any) => store.job);
 
   return (
@@ -67,7 +65,6 @@ const AppliedJobTable = () => {
                     {appliedJob.job?.title}
                   </TableCell>
                   <TableCell className="text-muted-foreground text-center">
-                    {/* Formatting the MongoDB date string */}
                     {appliedJob?.createdAt ? new Date(appliedJob.createdAt).toLocaleDateString("en-GB") : "N/A"}
                   </TableCell>
                   <TableCell className="text-right">
