@@ -4,7 +4,7 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import CompaniesTable from './CompaniesTable' // 🟢 Ensure you have this table component
+import CompaniesTable from './CompaniesTable' // 
 import useGetAdminCompanies from '@/hooks/useGetAdminCompanies'
 import { setSearchCompanyByText } from '@/redux/companySlice'
 
