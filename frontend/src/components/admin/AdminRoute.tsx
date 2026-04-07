@@ -13,7 +13,6 @@ const AdminRoute = ({ children }: { children: React.ReactNode }) => {
       </div>
     );
   }
-
   if (!user) {
     return <Navigate to="/login" />;
   }
