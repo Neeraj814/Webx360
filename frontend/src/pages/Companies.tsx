@@ -16,12 +16,10 @@ const Companies = () => {
     const [loading, setLoading] = useState(true);
     const [filterText, setFilterText] = useState("");
 
-    // 1. Fetch ALL companies (Public View)
     useEffect(() => {
         const fetchAllPublicCompanies = async () => {
             try {
                 setLoading(true);
-                // Ensure your backend route is defined as /getall
                 const res = await axios.get(`${COMPANY_API_END_POINT}/getall`, { withCredentials: true });
                 if (res.data.success) {
                     dispatch(setCompanies(res.data.companies));
@@ -95,7 +93,6 @@ const Companies = () => {
                                                     <Building2 className="h-8 w-8 text-slate-400" />
                                                 )}
                                             </div>
-                                            {/* 🟢 FIXED: Using jobCount from our new backend logic */}
                                             <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-100 px-3 py-1 text-xs font-bold">
                                                 {c.jobCount || 0} Openings
                                             </Badge>
@@ -122,7 +119,6 @@ const Companies = () => {
                                         </span>
                                         <button 
                                             onClick={() => {
-                                                // If current user is the owner/recruiter, take them to manage, else view jobs
                                                 if (user?.role === 'recruiter' && c.userId === user?._id) {
                                                     navigate(`/admin/companies/${c._id}`);
                                                 } else {
