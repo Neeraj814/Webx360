@@ -66,7 +66,7 @@ const CategoryCarousel = () => {
           ))}
         </CarouselContent>
 
-        {/* ✅ Premium Navigation Arrows */}
+        {/*  Navigation Arrows */}
         <CarouselPrevious
           className="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 
   h-10 w-10 rounded-full border border-slate-200 
