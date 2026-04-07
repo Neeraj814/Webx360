@@ -62,7 +62,6 @@ const Navbar: React.FC = () => {
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between mx-auto max-w-7xl px-4">
 
-        {/* --- PREMIUM LOGO: WEBX360 --- */}
         <Link to="/" className="flex items-center gap-2.5 group">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 shadow-sm transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-105">
             <Lottie
