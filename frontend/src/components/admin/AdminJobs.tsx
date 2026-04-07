@@ -9,7 +9,7 @@ import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
 import { setSearchJobByText } from '@/redux/jobSlice'
 
 const AdminJobs: React.FC = () => {
-  useGetAllAdminJobs(); // Hook to fetch all jobs posted by the admin
+  useGetAllAdminJobs(); 
   const [input, setInput] = useState<string>("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
