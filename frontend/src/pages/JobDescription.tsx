@@ -14,7 +14,7 @@ import {
   ArrowLeft,
   Bookmark,
   Share2,
-  ExternalLink, // Added for external redirect icon
+  ExternalLink, 
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,7 +51,6 @@ const JobDescription = () => {
     fetchSingleJob();
   }, [id, dispatch, user?._id]);
 
-  // ✅ Updated handleApply with Redirect Logic
   const handleApply = async () => {
     if (!user) {
       toast({
@@ -63,14 +62,12 @@ const JobDescription = () => {
       return;
     }
 
-    // Check if the job requires external application
     if (singleJob?.isExternal && singleJob?.jobWebsite) {
       toast({
         title: "External Application",
         description: "Redirecting to the official company website...",
       });
       
-      // Delay slightly so user can read the toast
       setTimeout(() => {
         window.open(singleJob.jobWebsite, "_blank", "noopener,noreferrer");
       }, 1000);
@@ -96,7 +93,6 @@ const JobDescription = () => {
         });
       }
     } catch (error: any) {
-      // Fallback: If internal API fails but a website link exists, redirect anyway
       if (singleJob?.jobWebsite) {
         toast({
           title: "Redirecting...",
@@ -195,7 +191,6 @@ const JobDescription = () => {
                 onClick={handleApply}
                 disabled={isApplied}
               >
-                {/* ✅ Updated Button Text for External Jobs */}
                 {isApplied 
                     ? "Already Applied" 
                     : singleJob?.isExternal 
