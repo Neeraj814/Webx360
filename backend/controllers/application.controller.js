@@ -25,7 +25,6 @@ export const applyJob = async (req, res) => {
             return res.status(404).json({ message: "Job not found", success: false });
         }
 
-        // 🟢 MySQL Change: Just create the record. No need to .push() or .save() the job!
         await Application.create({
             jobId: jobId,
             applicantId: userId,
@@ -109,7 +108,6 @@ export const updateStatus = async (req, res) => {
             return res.status(400).json({ message: 'Status is required', success: false });
         }
 
-        // 🟢 MySQL Change: findByPk
         const application = await Application.findByPk(applicationId);
         
         if (!application) {
