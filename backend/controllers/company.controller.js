@@ -11,7 +11,7 @@ export const registerCompany = async (req, res) => {
             return res.status(400).json({ message: "Company name is required.", success: false });
         }
 
-        // 🟢 MySQL Change: use 'where'
+        
         let company = await Company.findOne({ where: { name: companyName } });
         if (company) {
             return res.status(400).json({ message: "You can't register the same company.", success: false });
@@ -19,7 +19,7 @@ export const registerCompany = async (req, res) => {
 
         company = await Company.create({
             name: companyName,
-            userId: req.id // The Recruiter's ID from auth middleware
+            userId: req.id 
         });
 
         return res.status(201).json({ message: "Company registered successfully.", company, success: true });
@@ -34,7 +34,6 @@ export const getCompany = async (req, res) => {
     try {
         const userId = req.id; 
 
-        // 🟢 Pro SQL Move: Get companies and count jobs in ONE query
         const companies = await Company.findAll({
             where: { userId },
             attributes: {
@@ -45,7 +44,7 @@ export const getCompany = async (req, res) => {
             include: [{
                 model: Job,
                 as: 'jobs',
-                attributes: [] // Don't fetch job data, just count them
+                attributes: [] 
             }],
             group: ['Company.id']
         });
@@ -84,7 +83,6 @@ export const getCompanyById = async (req, res) => {
     try {
         const companyId = req.params.id;
         
-        // 🟢 MySQL Change: findByPk
         const company = await Company.findByPk(companyId, {
             attributes: {
                 include: [[sequelize.fn("COUNT", sequelize.col("jobs.id")), "jobCount"]]
@@ -108,7 +106,6 @@ export const deleteCompany = async (req, res) => {
     try {
         const companyId = req.params.id;
 
-        // 🟢 MySQL Delete Query using Sequelize
         const company = await Company.destroy({
             where: {
                 id: companyId
@@ -154,14 +151,12 @@ export const updateCompany = async (req, res) => {
         if(logo) updateData.logo = logo;
 
         // 🟢 MySQL Update using Sequelize
-        // Sequelize update returns an array [affectedCount]
         const [affectedCount] = await Company.update(updateData, {
             where: {
                 id: req.params.id 
             }
         });
 
-        // Agar affectedCount 0 hai, matlab ID nahi mili
         if (affectedCount === 0) {
             return res.status(404).json({
                 message: "Company not found or no changes made.",
@@ -175,10 +170,10 @@ export const updateCompany = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("SQL Error Details:", error); // Terminal check karein
+        console.error("SQL Error Details:", error); 
         return res.status(500).json({ 
             message: "Internal Server Error", 
-            error: error.message, // Debugging ke liye error message bhej rahe hain
+            error: error.message, 
             success: false 
         });
     }
