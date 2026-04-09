@@ -14,13 +14,13 @@ export const postJob = async (req, res) => {
         const job = await Job.create({
             title,
             description,
-            requirements, // Setter in model handles string conversion
+            requirements, 
             salary: Number(salary),
             location,
             jobType,
             experienceLevel: experience,
             position,
-            companyId, // MySQL uses the foreign key column name
+            companyId, 
             created_by: userId,
             jobWebsite: jobWebsite || "",
             category
@@ -38,7 +38,6 @@ export const getAllJobs = async (req, res) => {
     try {
         const keyword = req.query.keyword || "";
         
-        // 🟢 MySQL Logic: Use Op.like for searching
         const jobs = await Job.findAll({
             where: {
                 [Op.or]: [
@@ -47,8 +46,8 @@ export const getAllJobs = async (req, res) => {
                     { category: { [Op.like]: `%${keyword}%` } },
                 ]
             },
-            include: [{ model: Company, as: 'company' }], // 🟢 Replaces .populate()
-            order: [['createdAt', 'DESC']] // 🟢 Replaces .sort()
+            include: [{ model: Company, as: 'company' }], 
+            order: [['createdAt', 'DESC']] 
         });
 
         return res.status(200).json({ jobs: jobs || [], success: true });
@@ -63,7 +62,6 @@ export const getJobById = async (req, res) => {
     try {
         const jobId = req.params.id;
         
-        // 🟢 MySQL Logic: Include multiple tables
         const job = await Job.findByPk(jobId, {
             include: [
                 { model: Company, as: 'company' },
@@ -115,7 +113,7 @@ export const deleteJob = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized.", success: false });
         }
 
-        await job.destroy(); // 🟢 MySQL way to delete
+        await job.destroy(); 
 
         return res.status(200).json({ message: "Job deleted successfully.", success: true });
     } catch (error) {
