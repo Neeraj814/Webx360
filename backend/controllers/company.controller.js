@@ -3,7 +3,9 @@ import { sequelize } from "../utils/db.js";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
+// ==========================================
 // 1. REGISTER COMPANY
+// ==========================================
 export const registerCompany = async (req, res) => {
     try {
         const { companyName } = req.body;
@@ -11,11 +13,13 @@ export const registerCompany = async (req, res) => {
             return res.status(400).json({ message: "Company name is required.", success: false });
         }
 
+        // Check if company already exists
         let company = await Company.findOne({ where: { name: companyName } });
         if (company) {
             return res.status(400).json({ message: "You can't register the same company.", success: false });
         }
 
+        // Create new company profile
         company = await Company.create({
             name: companyName,
             userId: req.id 
@@ -23,12 +27,14 @@ export const registerCompany = async (req, res) => {
 
         return res.status(201).json({ message: "Company registered successfully.", company, success: true });
     } catch (error) {
-        console.log(error);
+        console.error("Register Company Error:", error);
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 }
 
+// ==========================================
 // 2. GET COMPANIES BY LOGGED-IN USER (With Job Count)
+// ==========================================
 export const getCompany = async (req, res) => {
     try {
         const userId = req.id; 
@@ -54,12 +60,14 @@ export const getCompany = async (req, res) => {
 
         return res.status(200).json({ companies, success: true });
     } catch (error) {
-        console.log(error);
+        console.error("Get Company Error:", error);
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 }
 
+// ==========================================
 // 3. GET ALL COMPANIES (Public List)
+// ==========================================
 export const getAllCompanies = async (req, res) => {
     try {
         const companies = await Company.findAll({
@@ -72,12 +80,14 @@ export const getAllCompanies = async (req, res) => {
 
         return res.status(200).json({ companies: companies || [], success: true });
     } catch (error) {
-        console.log(error);
+        console.error("Get All Companies Error:", error);
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 }
 
+// ==========================================
 // 4. GET COMPANY BY ID
+// ==========================================
 export const getCompanyById = async (req, res) => {
     try {
         const companyId = req.params.id;
@@ -96,36 +106,41 @@ export const getCompanyById = async (req, res) => {
 
         return res.status(200).json({ company, success: true });
     } catch (error) {
-        console.log(error);
+        console.error("Get Company By ID Error:", error);
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 }
 
+// ==========================================
 // 5. DELETE COMPANY
+// ==========================================
 export const deleteCompany = async (req, res) => {
     try {
         const companyId = req.params.id;
 
-        const company = await Company.destroy({
-            where: {
-                id: companyId
-            }
-        });
-
-        if (!company) {
+        // Check if company exists before deleting
+        const existingCompany = await Company.findByPk(companyId);
+        if (!existingCompany) {
             return res.status(404).json({
                 message: "Company not found.",
                 success: false
             });
         }
 
+        // DB level records delete operation
+        await Company.destroy({
+            where: {
+                id: companyId
+            }
+        });
+
         return res.status(200).json({
-            message: "Company deleted successfully.",
+            message: "Company deleted successfully from database.",
             success: true
         });
 
     } catch (error) {
-        console.log(error);
+        console.error("Delete Company Error:", error);
         return res.status(500).json({
             message: "Internal Server Error",
             success: false
@@ -133,7 +148,9 @@ export const deleteCompany = async (req, res) => {
     }
 }
 
+// ==========================================
 // 6. UPDATE COMPANY
+// ==========================================
 export const updateCompany = async (req, res) => {
     try {
         const { name, description, website, location } = req.body;
@@ -168,11 +185,11 @@ export const updateCompany = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("SQL Error Details:", error); 
+        console.error("SQL Update Error Details:", error); 
         return res.status(500).json({ 
             message: "Internal Server Error", 
             error: error.message, 
             success: false 
         });
     }
-}; // 🟢 Sabhi brackets yahan properly end ho gaye hain.
+};
