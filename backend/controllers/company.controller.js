@@ -11,11 +11,10 @@ export const registerCompany = async (req, res) => {
             return res.status(400).json({ message: "Company name is required.", success: false });
         }
 
-        
         let company = await Company.findOne({ where: { name: companyName } });
         if (company) {
             return res.status(400).json({ message: "You can't register the same company.", success: false });
-        };
+        }
 
         company = await Company.create({
             name: companyName,
@@ -101,7 +100,8 @@ export const getCompanyById = async (req, res) => {
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 }
-// delte company
+
+// 5. DELETE COMPANY
 export const deleteCompany = async (req, res) => {
     try {
         const companyId = req.params.id;
@@ -133,7 +133,7 @@ export const deleteCompany = async (req, res) => {
     }
 }
 
-// 5. UPDATE COMPANY
+// 6. UPDATE COMPANY
 export const updateCompany = async (req, res) => {
     try {
         const { name, description, website, location } = req.body;
@@ -141,7 +141,6 @@ export const updateCompany = async (req, res) => {
         
         let logo;
         if (file) {
-            // Cloudinary logic
             const fileUri = getDataUri(file);
             const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
             logo = cloudResponse.secure_url;
@@ -150,7 +149,6 @@ export const updateCompany = async (req, res) => {
         const updateData = { name, description, website, location };
         if(logo) updateData.logo = logo;
 
-        // 🟢 MySQL Update using Sequelize
         const [affectedCount] = await Company.update(updateData, {
             where: {
                 id: req.params.id 
@@ -177,5 +175,4 @@ export const updateCompany = async (req, res) => {
             success: false 
         });
     }
-}
-}
+}; // 🟢 Sabhi brackets yahan properly end ho gaye hain.
