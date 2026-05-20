@@ -2,7 +2,6 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-// 🔴 FIX: Duplicate imports hataye aur sirf connectDB aur sequelize rakha
 import connectDB, { sequelize } from "./utils/db.js"; 
 import "./models/index.js"; 
 
@@ -41,8 +40,8 @@ app.use(cors(corsOptions));
 
 // API Routes
 app.use("/api/v1/user", userRoute);
-// app.use("/api/v1/company", companyRoute); // Ensure these are imported
-// app.use("/api/v1/job", jobRoute);
+ app.use("/api/v1/company", companyRoute); 
+ app.use("/api/v1/job", jobRoute);
 
 // Fallback for undefined routes
 app.use((req, res) => {
@@ -58,15 +57,14 @@ app.listen(PORT, async () => {
         await connectDB();
         console.log('Connection to Aiven MySQL established. 🚀');
 
-        // 2. Synchronize Models
-        // ⚠️ Render Production mein { alter: true } risky ho sakta hai, 
-        // par initial setup ke liye theek hai.
-        await sequelize.sync({ alter: true }); 
+        // 2. Synchronize Models Safely
+        // 🟢 FIX: { alter: true } ko hata diya hai production crash se bachne ke liye
+        await sequelize.sync(); 
         console.log("All MySQL models synchronized successfully. ✅");
 
         console.log(`Server running at port ${PORT} ✅`);
     } catch (error) {
         console.error('Unable to start the server, Babuji:', error.message);
-        process.exit(1); // Crash hone par process exit karein taaki Render use restart kar sake
+        process.exit(1); 
     }
 });
