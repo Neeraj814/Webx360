@@ -9,7 +9,6 @@ import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
-// Baaki routes bhi yahan import karein (company, job, etc.)
 
 dotenv.config({});
 
@@ -61,7 +60,6 @@ app.listen(PORT, async () => {
         console.log('Connection to Aiven MySQL established. 🚀');
 
         // 2. Synchronize Models Safely
-        // 🟢 FIX: { alter: true } ko hata diya hai production crash se bachne ke liye
         await sequelize.sync(); 
         console.log("All MySQL models synchronized successfully. ✅");
 
