@@ -4,7 +4,7 @@ import Lottie from "lottie-react";
 import briefcaseAnimation from "@/assets/icons8-briefcase.json";
 import {
   Menu, X, LogOut, User2, LayoutDashboard,
-  ChevronRight, ShieldCheck, Settings
+  ChevronRight, Settings
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSelector, useDispatch } from "react-redux";
@@ -59,25 +59,20 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between mx-auto max-w-7xl px-4">
 
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 shadow-sm transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-105">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary shadow-sm transition-transform duration-300 group-hover:-rotate-3">
             <Lottie
               animationData={briefcaseAnimation}
               loop={true}
-              className="h-7 w-7"
+              className="h-6 w-6 invert brightness-0 contrast-200"
             />
           </div>
-          <div className="flex flex-col -space-y-1.5">
-            <span className="text-xl font-black tracking-tighter">
-              <span className="text-muted-foreground/60 font-medium">Web</span>
-              <span className="text-primary italic">X</span>
-              <span className="text-foreground">360</span>
-            </span>
-           
-          </div>
+          <span className="font-display text-xl font-semibold tracking-tight text-foreground">
+            WebX<span className="text-primary">360</span>
+          </span>
         </Link>
 
         {/* --- DESKTOP NAVIGATION --- */}
@@ -86,8 +81,8 @@ const Navbar: React.FC = () => {
             <NavLink
               key={link.to}
               to={link.to}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-muted hover:text-foreground"
-              activeClassName="bg-primary/10 text-primary hover:bg-primary/15"
+              className="rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              activeClassName="text-foreground"
             >
               {link.label}
             </NavLink>
@@ -95,24 +90,24 @@ const Navbar: React.FC = () => {
 
           <NavLink
             to="/companies"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-muted hover:text-foreground"
-            activeClassName="bg-primary/10 text-primary"
+            className="rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            activeClassName="text-foreground"
           >
             Companies
           </NavLink>
 
           {userRole === 'recruiter' && (
-            <div className="flex items-center ml-2 pl-4 border-l border-border/60">
+            <div className="flex items-center ml-2 pl-4 border-l border-border">
               <NavLink
-                to="/admin/companies"
-                className="group/admin flex items-center gap-2 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-emerald-500/10 text-emerald-600 rounded-full border border-emerald-500/20 hover:bg-emerald-500/20 transition-all shadow-sm"
-                activeClassName="bg-emerald-500/20 border-emerald-500/40 text-emerald-700 ring-2 ring-emerald-500/20"
+                to="/admin/dashboard"
+                className="group/admin flex items-center gap-2 px-3 py-1.5 text-xs font-semibold bg-ink text-ink-foreground rounded-full hover:bg-ink/90 transition-all"
+                activeClassName="ring-2 ring-primary/40"
               >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
                 </span>
-                Admin Mode
+                Recruiter workspace
               </NavLink>
             </div>
           )}
@@ -127,7 +122,7 @@ const Navbar: React.FC = () => {
                   <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
                     {fullName ? fullName.split(" ")[0] : "Account"}
                   </span>
-                  <Avatar className="h-8 w-8 border border-primary/20 shadow-sm">
+                  <Avatar className="h-8 w-8 border border-border">
                     <AvatarImage src={profilePic} className="object-cover" />
                     <AvatarFallback className="bg-primary text-white text-xs">{fullName?.charAt(0)}</AvatarFallback>
                   </Avatar>
@@ -142,21 +137,21 @@ const Navbar: React.FC = () => {
                   </Avatar>
                   <div className="flex flex-col overflow-hidden">
                     <p className="text-sm font-bold truncate text-foreground">{fullName}</p>
-                    <p className="text-[10px] font-bold uppercase text-primary tracking-widest">{userRole}</p>
+                    <p className="text-[11px] font-semibold text-primary capitalize">{userRole}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1 mt-1">
                   <Link to="/profile?edit=true">
                     <Button variant="ghost" size="sm" className="w-full justify-start gap-2 font-normal hover:bg-primary/5 hover:text-primary">
-                      <User2 className="h-4 w-4" /> View Profile
+                      <User2 className="h-4 w-4" /> View profile
                     </Button>
                   </Link>
 
                   {userRole === 'recruiter' && (
                     <Link to="/admin/dashboard">
                       <Button variant="ghost" size="sm" className="w-full justify-start gap-2 font-normal hover:bg-primary/5 hover:text-primary">
-                        <LayoutDashboard className="h-4 w-4" /> Admin Dashboard
+                        <LayoutDashboard className="h-4 w-4" /> Recruiter dashboard
                       </Button>
                     </Link>
                   )}
@@ -168,15 +163,15 @@ const Navbar: React.FC = () => {
                     className="w-full justify-start gap-2 text-destructive hover:bg-destructive/10"
                     onClick={handleLogout}
                   >
-                    <LogOut className="h-4 w-4" /> Logout
+                    <LogOut className="h-4 w-4" /> Log out
                   </Button>
                 </div>
               </PopoverContent>
             </Popover>
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/login"><Button variant="ghost" size="sm">Log In</Button></Link>
-              <Link to="/signup"><Button size="sm">Sign Up</Button></Link>
+              <Link to="/login"><Button variant="ghost" size="sm">Log in</Button></Link>
+              <Link to="/signup"><Button size="sm">Sign up</Button></Link>
             </div>
           )}
         </div>
@@ -195,32 +190,32 @@ const Navbar: React.FC = () => {
         <div className="md:hidden border-t bg-background p-4 flex flex-col gap-6 animate-in slide-in-from-top-2 duration-300 min-h-screen">
 
           {userData ? (
-            <div className="flex items-center gap-4 p-4 bg-muted/40 rounded-2xl border border-border/50">
+            <div className="flex items-center gap-4 p-4 bg-muted/40 rounded-2xl border border-border">
               <Avatar className="h-14 w-14 border-2 border-primary/20">
                 <AvatarImage src={profilePic} className="object-cover" />
                 <AvatarFallback className="bg-primary text-white text-lg">{fullName?.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <p className="text-base font-bold text-foreground">{fullName}</p>
-                <p className="text-xs font-semibold text-primary uppercase tracking-widest">{userRole}</p>
+                <p className="text-xs font-semibold text-primary capitalize">{userRole}</p>
               </div>
             </div>
           ) : (
             <div className="flex flex-col gap-3 p-2">
-              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-1">Welcome to WebX360</p>
+              <p className="text-sm font-semibold text-muted-foreground px-1">Welcome to WebX360</p>
               <div className="flex flex-col gap-2">
                 <Link to="/login" onClick={() => setMobileOpen(false)}>
-                  <Button variant="outline" className="w-full justify-center py-6 text-base font-semibold">Log In</Button>
+                  <Button variant="outline" className="w-full justify-center py-6 text-base font-semibold">Log in</Button>
                 </Link>
                 <Link to="/signup" onClick={() => setMobileOpen(false)}>
-                  <Button className="w-full justify-center py-6 text-base font-semibold">Create Account</Button>
+                  <Button className="w-full justify-center py-6 text-base font-semibold">Create account</Button>
                 </Link>
               </div>
             </div>
           )}
 
           <nav className="flex flex-col gap-2">
-            <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-3 mb-1">Navigation</p>
+            <p className="text-xs font-semibold text-muted-foreground px-3 mb-1">Navigation</p>
             {navLinks.map((link) => (
               <NavLink
                 key={link.to}
@@ -233,25 +228,34 @@ const Navbar: React.FC = () => {
                 <ChevronRight className="h-4 w-4 opacity-50" />
               </NavLink>
             ))}
+            <NavLink
+              to="/companies"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-all hover:bg-muted"
+              activeClassName="bg-primary/10 text-primary"
+            >
+              Companies
+              <ChevronRight className="h-4 w-4 opacity-50" />
+            </NavLink>
           </nav>
 
           {userData && (
             <div className="flex flex-col gap-2">
-              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest px-3 mb-1">Account & Admin</p>
+              <p className="text-xs font-semibold text-muted-foreground px-3 mb-1">Account</p>
               <Link
                 to="/profile?edit=true"
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-3 p-3 text-sm font-medium hover:bg-muted rounded-xl"
               >
                 <Settings className="h-4 w-4 text-primary" />
-                Profile Settings
+                Profile settings
               </Link>
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-3 p-3 text-sm font-bold text-destructive hover:bg-destructive/5 rounded-xl mt-4"
               >
                 <LogOut className="h-4 w-4" />
-                Logout
+                Log out
               </button>
             </div>
           )}
