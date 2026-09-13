@@ -32,11 +32,10 @@ const CategoryCarousel = () => {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-16 px-4 relative">
+    <div className="w-full max-w-4xl mx-auto my-4 px-4 relative">
 
-      {/* 🔥 Gradient Fade Edges */}
-      <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
       <Carousel
         opts={{
@@ -45,7 +44,6 @@ const CategoryCarousel = () => {
         }}
         className="relative"
       >
-        {/* Carousel Content */}
         <CarouselContent className="flex gap-3 cursor-grab active:cursor-grabbing">
           {categories.map((cat, index) => (
             <CarouselItem
@@ -55,10 +53,10 @@ const CategoryCarousel = () => {
               <Button
                 onClick={() => searchJobHandler(cat)}
                 variant="outline"
-                className="rounded-full font-medium border border-slate-200 
-                                hover:border-[#6A38C2] hover:text-[#6A38C2] 
-                                transition-all duration-200 shadow-sm 
-                                px-5 py-2 whitespace-nowrap bg-white"
+                className="rounded-full font-medium border-border
+                                hover:border-primary hover:text-primary hover:bg-primary/5
+                                transition-all duration-200
+                                px-5 py-2 whitespace-nowrap bg-card"
               >
                 {cat}
               </Button>
@@ -66,20 +64,19 @@ const CategoryCarousel = () => {
           ))}
         </CarouselContent>
 
-        {/*  Navigation Arrows */}
         <CarouselPrevious
-          className="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 
-  h-10 w-10 rounded-full border border-slate-200 
-  bg-white text-slate-600 shadow-md `
-  hover:bg-[#6A38C2] hover:text-white 
+          className="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2
+  h-10 w-10 rounded-full border border-border
+  bg-card text-foreground shadow-md
+  hover:bg-primary hover:text-primary-foreground hover:border-primary
   transition-all duration-200 z-20 [&>span]:hidden"
         />
 
         <CarouselNext
-          className="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 
-  h-10 w-10 rounded-full border border-slate-200 
-  bg-white text-slate-600 shadow-md 
-  hover:bg-[#6A38C2] hover:text-white 
+          className="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2
+  h-10 w-10 rounded-full border border-border
+  bg-card text-foreground shadow-md
+  hover:bg-primary hover:text-primary-foreground hover:border-primary
   transition-all duration-200 z-20 [&>span]:hidden"
         />
       </Carousel>
