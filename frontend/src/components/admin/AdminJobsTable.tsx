@@ -41,8 +41,8 @@ const AdminJobsTable: React.FC = () => {
 
     const deleteJobHandler = async (jobId: string, jobTitle: string) => {
         MySwal.fire({
-            title: <p className="text-2xl font-bold text-slate-800">Delete Job?</p>,
-            html: <p className="text-slate-600">Are you sure you want to remove <b>"{jobTitle}"</b>?</p>,
+            title: <p className="text-2xl font-bold text-foreground">Delete Job?</p>,
+            html: <p className="text-muted-foreground">Are you sure you want to remove <b>"{jobTitle}"</b>?</p>,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ef4444',
@@ -77,7 +77,7 @@ const AdminJobsTable: React.FC = () => {
         <div className='border rounded-xl bg-card shadow-sm overflow-hidden'>
             <Table>
                 <TableCaption className="pb-4 text-xs font-medium">Manage your active job postings</TableCaption>
-                <TableHeader className="bg-muted/50 text-slate-700">
+                <TableHeader className="bg-muted/50 text-foreground">
                     <TableRow>
                         <TableHead className="font-bold">Company</TableHead>
                         <TableHead className="font-bold">Role</TableHead>
@@ -95,11 +95,11 @@ const AdminJobsTable: React.FC = () => {
                     ) : (
                         filterJobs.map((job: any) => (
                             <TableRow key={job._id} className="hover:bg-muted/30 transition-colors group">
-                                <TableCell className="font-semibold text-slate-900">
+                                <TableCell className="font-semibold text-foreground">
                                     {typeof job?.company === 'object' ? job?.company?.name : "N/A (Not Populated)"}
                                 </TableCell>
                                 <TableCell>
-                                    <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-100 px-3 py-1">
+                                    <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20 px-3 py-1">
                                         {job?.title}
                                     </Badge>
                                 </TableCell>
@@ -117,22 +117,22 @@ const AdminJobsTable: React.FC = () => {
                                                 whileTap={{ scale: 0.9 }}
                                                 className="p-2 rounded-full outline-none transition-all"
                                             >
-                                                <MoreHorizontal className="h-5 w-5 text-slate-500" />
+                                                <MoreHorizontal className="h-5 w-5 text-muted-foreground" />
                                             </motion.button>
                                         </PopoverTrigger>
-                                        <PopoverContent className="w-48 p-1.5 shadow-xl border-slate-100 rounded-xl" align="end">
+                                        <PopoverContent className="w-48 p-1.5 shadow-xl border-border rounded-xl" align="end">
                                             <div 
                                                 onClick={() => navigate(`/admin/jobs/${job._id}`)} 
-                                                className='flex items-center gap-3 px-3 py-2.5 text-sm font-medium hover:bg-slate-50 rounded-lg cursor-pointer transition-all'
+                                                className='flex items-center gap-3 px-3 py-2.5 text-sm font-medium hover:bg-muted rounded-lg cursor-pointer transition-all'
                                             >
-                                                <Edit2 className='w-4 h-4 text-blue-500' />
+                                                <Edit2 className='w-4 h-4 text-accent' />
                                                 <span>Edit Details</span>
                                             </div>
                                             <div 
                                                 onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)} 
-                                                className='flex items-center gap-3 px-3 py-2.5 mt-0.5 text-sm font-medium hover:bg-slate-50 rounded-lg cursor-pointer transition-all'
+                                                className='flex items-center gap-3 px-3 py-2.5 mt-0.5 text-sm font-medium hover:bg-muted rounded-lg cursor-pointer transition-all'
                                             >
-                                                <Eye className='w-4 h-4 text-emerald-500' />
+                                                <Eye className='w-4 h-4 text-success' />
                                                 <span>View Applicants</span>
                                             </div>
 
