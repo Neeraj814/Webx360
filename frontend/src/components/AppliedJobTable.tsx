@@ -39,10 +39,10 @@ const AppliedJobTable = () => {
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
-              <TableHead className="font-heading font-bold text-zinc-700">Company</TableHead>
-              <TableHead className="font-heading font-bold text-zinc-700">Job Title</TableHead>
-              <TableHead className="font-heading font-bold text-zinc-700 text-center">Date</TableHead>
-              <TableHead className="font-heading font-bold text-zinc-700 text-right">Status</TableHead>
+              <TableHead className="font-heading font-bold text-foreground">Company</TableHead>
+              <TableHead className="font-heading font-bold text-foreground">Job Title</TableHead>
+              <TableHead className="font-heading font-bold text-foreground text-center">Date</TableHead>
+              <TableHead className="font-heading font-bold text-foreground text-right">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -70,7 +70,7 @@ const AppliedJobTable = () => {
                   <TableCell className="text-right">
                     <Badge
                       variant="outline"
-                      className={`capitalize font-bold px-3 py-1 rounded-lg ${statusStyles[appliedJob.status.toLowerCase()] || "bg-gray-100 text-gray-700"}`}
+                      className={`capitalize font-bold px-3 py-1 rounded-lg ${statusStyles[appliedJob.status.toLowerCase()] || "bg-muted text-muted-foreground"}`}
                     >
                       {appliedJob.status}
                     </Badge>
