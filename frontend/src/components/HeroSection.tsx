@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Button } from './ui/button';
-import { Search, MapPin } from 'lucide-react';
+import { Search, MapPin, ArrowRight } from 'lucide-react';
 import { setSearchedQuery } from '@/redux/jobSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,100 +12,133 @@ interface RootState {
             role: string;
         } | null;
     };
+    job: {
+        allJobs: any[];
+    };
+    company: {
+        companies: any[];
+    };
 }
 
 const HeroSection: React.FC = () => {
     const { user } = useSelector((store: RootState) => store.auth);
+    const { allJobs } = useSelector((store: RootState) => store.job);
+    const { companies } = useSelector((store: RootState) => store.company);
     const [query, setQuery] = useState("");
+    const [location, setLocation] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const isRecruiter = user?.role === 'recruiter';
+
     const searchJobHandler = (): void => {
         dispatch(setSearchedQuery(query));
-        user?.role === 'recruiter' ? navigate("/admin/jobs") : navigate("/browse");
+        isRecruiter ? navigate("/admin/jobs") : navigate("/browse");
     };
 
-    return (
-        <div className='relative w-full min-h-screen bg-white flex flex-col items-center overflow-hidden'>
-            
-            {/* --- 1. FOREGROUND CONTENT --- */}
-            <div className='relative z-30 w-full pt-16 md:pt-5 pb-4 px-4 flex flex-col items-center'>
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className='text-center max-w-4xl'
-                >
-                    <span className='inline-block px-4 py-1.5 rounded-full bg-black/5 text-gray-500 text-[11px] font-semibold mb-6 uppercase tracking-[2px] border border-gray-200'>
-                        {user?.role === 'recruiter' ? "Smart Hiring Platform" : "India's Smartest Career Network"}
-                    </span>
+    const jobCount = allJobs?.length || 0;
+    const companyCount = companies?.length || 0;
 
-                    {/* Headline */}
-                    <h1 className='text-4xl md:text-6xl font-black text-[#111827] tracking-tighter leading-[1.1] mb-6'>
-                        Land Your Dream Job — No Limits
-                    </h1>
-                    
-                    {/* Tagline & Search Bar Area */}
-                    <div className='relative z-40'>
-                        <p className='text-sm md:text-lg text-500 mb-4 max-w-xl mx-auto font-medium'>
-                            Turn Your Skills into Real Opportunities.
+    return (
+        <section className="relative overflow-hidden bg-background">
+            <div className="container mx-auto max-w-7xl px-4 pt-14 pb-10 md:pt-20 md:pb-16">
+                <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+
+                    {/* --- LEFT: EDITORIAL COPY --- */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        className="max-w-xl"
+                    >
+                        <p className="text-sm font-semibold text-primary mb-4">
+                            {isRecruiter ? "For teams hiring right now" : "For students starting out"}
                         </p>
 
-                        <motion.div 
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className='bg-white/90 backdrop-blur-md shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)] border border-gray-100 p-2 rounded-full flex items-center gap-2 w-full max-w-4xl mx-auto hover:shadow-2xl transition-all'
-                        >
-                            <div className='flex-[1.2] px-6 flex items-center gap-3 border-r border-gray-100'>
-                                <Search className='text-gray-400 w-4 h-5' />
-                                <input 
-                                    type="text" 
-                                    placeholder={user?.role === 'recruiter' ? "Hiring for..." : "Job title or company..."}
+                        <h1 className="font-display text-[2.6rem] leading-[1.05] md:text-6xl md:leading-[1.03] font-semibold text-foreground text-balance">
+                            {isRecruiter
+                                ? <>Hire the person who actually fits the role.</>
+                                : <>Your first job shouldn't feel like a lottery.</>
+                            }
+                        </h1>
+
+                        <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed">
+                            {isRecruiter
+                                ? "Post a role, see qualified applicants the same day, and manage every stage from one dashboard."
+                                : "WebX360 lists real openings from companies that are actively hiring — searchable by skill, location, and salary, no guesswork."
+                            }
+                        </p>
+
+                        {/* Search Pill */}
+                        <div className="mt-8 flex flex-col gap-2 rounded-2xl border border-border bg-card p-2 shadow-sm sm:flex-row sm:items-center sm:rounded-full">
+                            <div className="flex flex-1 items-center gap-2.5 rounded-full px-4 py-2.5 sm:border-r sm:border-border">
+                                <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+                                <input
+                                    type="text"
+                                    placeholder={isRecruiter ? "Role you're hiring for" : "Job title or company"}
+                                    value={query}
                                     onChange={(e) => setQuery(e.target.value)}
-                                    className='bg-transparent outline-none w-full py-3 text-sm text-gray-700 font-medium placeholder:text-gray-300'
+                                    onKeyDown={(e) => e.key === "Enter" && searchJobHandler()}
+                                    className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
                                 />
                             </div>
-
-                            <div className='hidden sm:flex flex-1 px-6 items-center gap-3'>
-                                <MapPin className='text-gray-400 w-4 h-4' />
-                                <input 
-                                    type="text" 
-                                    placeholder="Location" 
-                                    className='bg-transparent outline-none w-full py-3 text-sm text-gray-700 font-medium placeholder:text-gray-400'
+                            <div className="hidden flex-1 items-center gap-2.5 px-4 py-2.5 sm:flex">
+                                <MapPin className="h-4 w-4 shrink-0 text-muted-foreground" />
+                                <input
+                                    type="text"
+                                    placeholder="Location"
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                    className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
                                 />
                             </div>
-
-                            <Button 
+                            <Button
                                 onClick={searchJobHandler}
-                                className='bg-[#111827] hover:bg-black text-white rounded-full px-10 h-12 font-bold text-sm transition-all active:scale-95'
+                                className="h-11 shrink-0 gap-2 rounded-full px-6 font-semibold"
                             >
-                                Search
+                                Search <ArrowRight className="h-4 w-4" />
                             </Button>
-                        </motion.div>
-                    </div>
-                </motion.div>
-            </div>
+                        </div>
 
-            {/* --- 2. ENHANCED BACKGROUND IMAGE AREA --- */}
-            <div className='absolute inset-0 z-0 flex items-center md:items-end justify-center pointer-events-none pt-40 md:pt-60'>
-                
-                {/* Smooth Fade Overlay */}
-                <div className='absolute top-0 left-0 w-full h-[40%] bg-gradient-to-b from-white via-white/50 to-transparent z-10' />
+                        {/* Live stat strip — a structural device, not decoration: real counts from the data */}
+                        <div className="mt-9 flex items-center gap-8 border-t border-border pt-6">
+                            <div>
+                                <p className="font-display text-2xl font-semibold text-foreground">{jobCount.toLocaleString()}+</p>
+                                <p className="text-xs text-muted-foreground mt-0.5">Open roles</p>
+                            </div>
+                            <div className="h-8 w-px bg-border" />
+                            <div>
+                                <p className="font-display text-2xl font-semibold text-foreground">{companyCount.toLocaleString()}+</p>
+                                <p className="text-xs text-muted-foreground mt-0.5">Hiring companies</p>
+                            </div>
+                            <div className="h-8 w-px bg-border" />
+                            <div>
+                                <p className="font-display text-2xl font-semibold text-foreground">24h</p>
+                                <p className="text-xs text-muted-foreground mt-0.5">Avg. reply time</p>
+                            </div>
+                        </div>
+                    </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 100 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                    className='w-full flex justify-center'
-                >
-                    <img 
-                        src={user?.role === 'recruiter' ? "/Recuiter-Home.png" : "/Student-Home.png"} 
-                        className='w-full max-w-[1500px] xl:max-w-[1800px] h-auto object-contain origsin-top select-none scale-125 md:scale-110 -mt-20 md:-mt-32 transition-all duration-700'
-                        alt="Hero Characters"
-                    />
-                </motion.div>
+                    {/* --- RIGHT: VISUAL --- */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.96 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+                        className="relative hidden lg:block"
+                    >
+                        <div className="absolute -inset-6 rounded-[2.5rem] bg-primary/10" />
+                        <div className="absolute -bottom-8 -left-8 h-40 w-40 rounded-full bg-accent/10 blur-2xl" />
+                        <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-border bg-muted">
+                            <img
+                                src={isRecruiter ? "/Recuiter-Home.png" : "/Student-Home.png"}
+                                className={`h-full w-full object-cover ${isRecruiter ? "object-center" : "object-bottom"}`}
+                                alt="People finding their next role on WebX360"
+                            />
+                        </div>
+                    </motion.div>
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 
