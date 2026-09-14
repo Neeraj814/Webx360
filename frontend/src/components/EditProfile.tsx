@@ -83,10 +83,10 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted/30">
       <Navbar />
 
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow mt-6">
+      <div className="max-w-3xl mx-auto bg-card p-8 rounded-2xl border border-border shadow-sm mt-6">
         <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
 
         <form onSubmit={submitHandler} className="space-y-5">
