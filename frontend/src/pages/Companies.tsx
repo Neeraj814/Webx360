@@ -44,25 +44,25 @@ const Companies = () => {
     });
 
     return (
-        <div className="min-h-screen bg-slate-50/50">
+        <div className="min-h-screen bg-background">
             <Navbar />
             <div className="container mx-auto px-4 py-12 max-w-7xl">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                     <div>
-                        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Top Companies</h1>
-                        <p className="mt-2 text-lg text-slate-600">
+                        <h1 className="font-display text-4xl font-semibold text-foreground tracking-tight">Companies hiring now</h1>
+                        <p className="mt-2 text-lg text-muted-foreground">
                             {loading ? "Loading organizations..." : `Explore ${companies?.length || 0} organizations hiring right now.`}
                         </p>
                     </div>
 
                     {/* Search Bar */}
                     <div className="relative w-full md:w-80">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <input
                             type="text"
                             placeholder="Find your next workplace..."
-                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-border bg-white shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                             onChange={(e) => setFilterText(e.target.value)}
                         />
                     </div>
@@ -82,39 +82,39 @@ const Companies = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: i * 0.05 }}
-                                    className="group relative flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:shadow-xl hover:border-primary/30"
+                                    className="group relative flex flex-col justify-between rounded-2xl border border-border bg-white p-6 transition-all hover:shadow-xl hover:border-primary/30"
                                 >
                                     <div>
                                         <div className="flex items-start justify-between">
-                                            <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-slate-100 border border-slate-100">
+                                            <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-muted border border-border">
                                                 {c.logo ? (
                                                     <img src={c.logo} alt={c.name} className="h-full w-full object-cover" />
                                                 ) : (
-                                                    <Building2 className="h-8 w-8 text-slate-400" />
+                                                    <Building2 className="h-8 w-8 text-muted-foreground" />
                                                 )}
                                             </div>
-                                            <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-100 px-3 py-1 text-xs font-bold">
+                                            <Badge variant="outline" className="bg-success/10 text-success border-success/20 px-3 py-1 text-xs font-bold">
                                                 {c.jobCount || 0} Openings
                                             </Badge>
                                         </div>
 
                                         <div className="mt-5">
-                                            <h3 className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors">
+                                            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                                                 {c.name}
                                             </h3>
-                                            <div className="mt-1 flex items-center gap-1 text-sm text-slate-500">
+                                            <div className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
                                                 <MapPin className="h-3.5 w-3.5" />
                                                 <span>{c.location || "Remote / Global"}</span>
                                             </div>
                                         </div>
 
-                                        <p className="mt-4 text-sm leading-relaxed text-slate-600 line-clamp-3">
+                                        <p className="mt-4 text-sm leading-relaxed text-muted-foreground line-clamp-3">
                                             {c.description || "Leading the industry with innovation and a commitment to excellence."}
                                         </p>
                                     </div>
 
-                                    <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4">
-                                        <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                                    <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
+                                        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                                             Verified Employer
                                         </span>
                                         <button 
@@ -134,8 +134,8 @@ const Companies = () => {
                             ))
                         ) : (
                             <div className="col-span-full py-24 text-center">
-                                <h2 className="text-xl font-semibold text-slate-900">No companies match your search</h2>
-                                <p className="text-slate-500">Try adjusting your keywords.</p>
+                                <h2 className="text-xl font-semibold text-foreground">No companies match your search</h2>
+                                <p className="text-muted-foreground">Try adjusting your keywords.</p>
                             </div>
                         )}
                     </div>
